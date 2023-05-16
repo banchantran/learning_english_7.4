@@ -1,0 +1,8 @@
+all.min.css
+bootstrap.min.css
+bootstrap-grid.min.css
+bootstrap-icons.min.css
+common.css
+custom.css
+ist_files.txt
+jquery-ui.min.css
