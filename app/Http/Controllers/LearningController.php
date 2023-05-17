@@ -66,12 +66,15 @@ class LearningController extends Controller
         }
 
         try {
-            $lesson = CompletedLesson::where('lesson_id', $lessonId)->first();
+            $lesson = CompletedLesson::where('lesson_id', $lessonId)
+                ->where('user_id', Auth::user()->id)
+                ->first();
 
             if (empty($lesson)) {
                 CompletedLesson::create([
                     'lesson_id' => $lessonId,
                     'user_id' => Auth::user()->id,
+                    'finished_date' => date('Y-m-d'),
                 ])->save();
 
                 $responseObj['data']['was_completed'] = true;
@@ -127,4 +130,5 @@ class LearningController extends Controller
 
         return response()->json($responseObj);
     }
+
 }

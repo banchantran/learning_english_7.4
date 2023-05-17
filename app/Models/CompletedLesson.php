@@ -15,7 +15,7 @@ class CompletedLesson extends Model
      * @var string[]
      */
     protected $fillable = [
-        'id', 'lesson_id', 'user_id',
+        'id', 'lesson_id', 'user_id', 'finished_date'
     ];
 
     /**
