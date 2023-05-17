@@ -37,7 +37,7 @@ class User extends Authenticatable
         'verify_password',
     ];
 
-    protected function setPassword($value)
+    protected function setPasswordAttribute($value)
     {
         $this->attributes['password'] = Hash::make($value);
     }
