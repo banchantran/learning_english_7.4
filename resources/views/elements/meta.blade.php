@@ -3,6 +3,17 @@
 <meta name="format-detection" content="telephone=no">
 <title>Speak English</title>
 
+<meta itemprop="name" content="Speak English">
+<meta itemprop="description" content="Speak your way, Live life your style">
+<meta itemprop="image" content="{{url('img/speak_english.png')}}">
+
+<meta property="og:url" content="http://speak-english.banchantran.xyz/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Speak English">
+<meta property="og:description" content="Speak your way, Live life your style">
+<meta property="og:image" content="{{url('img/speak_english.png')}}">
+<meta property="og:image:alt" content="Speak English">
+
 <link rel="icon" type="image/x-icon" href="{{url('favicon.png')}}">
 
 <link rel="stylesheet" href="{{url('css/bootstrap.min.css')}}">
