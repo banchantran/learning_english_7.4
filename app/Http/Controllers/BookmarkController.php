@@ -5,13 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Bookmark;
 use App\Models\Item;
 use App\Models\Lesson;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 
 class BookmarkController extends Controller
 {
-    const MAX_ITEM = 10;
-
     /**
      * Create a new controller instance.
      *
@@ -23,35 +22,20 @@ class BookmarkController extends Controller
 
     public function learn()
     {
-        $bookmarkItemIds = Bookmark::select(['item_id'])->get()->pluck('item_id')->toArray();
-        $items = Item::whereIn('id', $bookmarkItemIds)->get();
+        $this->_getData();
 
-        $items = $this->randomActive($items->toArray(), 'random', self::MAX_ITEM);
-
-        return view('bookmark.show', [
-            'items' => $items,
-            'bookmarkItemIds' => $bookmarkItemIds,
-        ]);
+        return view('bookmark.show');
     }
 
     public function reload()
     {
         $responseObj = ['success' => false, 'data' => []];
 
-        $displayType = request()->displayType;
-
         try {
-            $bookmarkItemIds = Bookmark::select(['item_id'])->get()->pluck('item_id')->toArray();
-
-            $items = Item::whereIn('id', $bookmarkItemIds)->get();
-
-            $items = $this->randomActive($items->toArray(), $displayType, self::MAX_ITEM);
+            $this->_getData();
 
             $responseObj['success'] = true;
-            $responseObj['data'] = view('learning._form', [
-                'items' => $items,
-                'bookmarkItemIds' => $bookmarkItemIds
-            ])->render();
+            $responseObj['data'] = view('learning._form')->render();
 
             return response()->json($responseObj);
 
@@ -65,6 +49,19 @@ class BookmarkController extends Controller
         return response()->json($responseObj);
     }
 
+    private function _getData()
+    {
+        $bookmarkItemIds = Bookmark::select(['item_id'])->get()->pluck('item_id')->toArray();
+        $items = Item::whereIn('id', $bookmarkItemIds)->get();
+
+        $displayType = !empty(request()->displayType) ? request()->displayType : 'random';
+
+        $items = $this->randomActive($items->toArray(), $displayType, config('constant.PER_PAGE'));
+
+        view()->share('items', $items);
+        view()->share('bookmarkItemIds', $bookmarkItemIds);
+    }
+
     public function store($itemId)
     {
         $responseObj = ['success' => false, 'data' => []];
@@ -74,12 +71,15 @@ class BookmarkController extends Controller
 
             if (empty($bookmark)) {
                 Bookmark::create([
-                    'item_id' => $itemId
+                    'item_id' => $itemId,
+                    'user_id' => Auth::user()->id,
                 ])->save();
 
                 $responseObj['data']['is_bookmark'] = true;
             } else {
-                Bookmark::where('item_id', $itemId)->delete();
+                Bookmark::where('item_id', $itemId)
+                    ->where('user_id', Auth::user()->id)
+                    ->delete();
 
                 $responseObj['data']['is_bookmark'] = false;
             }

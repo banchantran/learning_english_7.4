@@ -15,7 +15,7 @@ class Bookmark extends Model
      * @var string[]
      */
     protected $fillable = [
-        'id', 'item_id', 'del_flag',
+        'id', 'user_id', 'item_id', 'del_flag',
     ];
 
     /**

@@ -48,7 +48,7 @@ class CategoryController extends Controller
         }
 
 
-        $data = $data->paginate(10);
+        $data = $data->paginate(config('constant.PER_PAGE'));
 
         return view('category.index', ['data' => $data]);
     }

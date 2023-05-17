@@ -79,7 +79,9 @@ class LearningController extends Controller
 
                 $responseObj['data']['was_completed'] = true;
             } else {
-                CompletedLesson::where('lesson_id', $lessonId)->delete();
+                CompletedLesson::where('lesson_id', $lessonId)
+                    ->where('user_id', Auth::user()->id)
+                    ->delete();
             }
 
             $responseObj['success'] = true;

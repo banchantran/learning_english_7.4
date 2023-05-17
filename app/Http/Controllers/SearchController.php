@@ -50,7 +50,7 @@ class SearchController extends Controller
             })
             ->groupBy(['items.id', 'items.lesson_id', 'items.category_id'])
             ->orderBy('items.id')
-            ->paginate(10);
+            ->paginate(config('constant.PER_PAGE'));
 
         $bookmarkItemIds = [];
         if (Auth::check()) {

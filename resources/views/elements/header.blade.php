@@ -16,9 +16,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{url(route('bookmark.learn'))}}">Bookmark</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{url(route('practice.learn'))}}">Practice</a>
-                </li>
+                @auth
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url(route('practice.learn'))}}">Practice</a>
+                    </li>
+                @endauth
             </ul>
             @if (!$hideSearchBar)
                 <form class="form-inline my-2 my-lg-0 group-search" method="get" action="{{url(route('search.result'))}}">

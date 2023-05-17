@@ -16,8 +16,8 @@
             <div class="col-4 text-center">
                 <h2 class="lesson-name">
                     Practice
-                    <span class="text-small"> - {{count($bookmarkItemIds)}} {{Str::plural('lesson', count($bookmarkItemIds))}}</span>
-                    <span class="text-small"> - {{count($bookmarkItemIds)}} {{Str::plural('item', count($bookmarkItemIds))}}</span>
+                    <span class="text-small"> - {{$totalLessons}} {{Str::plural('lesson', $totalLessons)}}</span>
+                    <span class="text-small"> - {{$totalItems}} {{Str::plural('item', $totalItems)}}</span>
                 </h2>
             </div>
             <div class="col-4 text-end  d-flex align-items-center justify-content-end">
@@ -28,7 +28,7 @@
         <div class="group-actions mb20">
             <div class="row">
                 <div class="col-8">
-                    <select class="form-select display-type d-inline-block" name="show_type" aria-label="Default select" onchange="$('.btn-reload').click()">
+                    <select class="form-select range-type d-inline-block" name="range_type" aria-label="Default select" onchange="$('.btn-reload').click()">
                         <option value="0">All lessons</option>
                         <option value="1">Lessons in this week</option>
                         <option value="3">Lessons in this month</option>
@@ -63,6 +63,12 @@
                 </div>
                 <div class="col-4">
                     <div class="float-end">
+
+                        <select class="form-select display-type d-inline-block" name="show_type" aria-label="Default select" onchange="$('.btn-reload').click()">
+                            @foreach(config('config.per_page') as $key => $value)
+                                <option value="{{$key}}" {{$key == config('constant.PER_PAGE') ? 'selected' : ''}}>{{$value}}</option>
+                            @endforeach
+                        </select>
                         <button type="button" class="btn btn-outline-success" onclick="System.checkResult()">
                             <p class="d-flex align-items-center">
                                 <img src="{{url('img/signal.png')}}" alt="reload" width="15px" class="mr-10">
@@ -70,11 +76,6 @@
                             </p>
                         </button>
 
-                        <select class="form-select display-type d-inline-block" name="show_type" aria-label="Default select" onchange="$('.btn-reload').click()">
-                            <option value="10">10 items</option>
-                            <option value="20">20 items</option>
-                            <option value="30">30 items</option>
-                        </select>
                     </div>
                 </div>
                 <div class="col-12">

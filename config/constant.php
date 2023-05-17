@@ -9,4 +9,6 @@ return [
     'PRACTICE_3_RECENTLY' => 5,
     'PRACTICE_7_RECENTLY' => 6,
     'PRACTICE_10_RECENTLY' => 7,
+
+    'PER_PAGE' => 5,
 ];

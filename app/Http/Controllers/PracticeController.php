@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bookmark;
+use App\Models\CompletedLesson;
 use App\Models\Item;
 use App\Models\Lesson;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 
 class PracticeController extends Controller
 {
-    const MAX_ITEM = 10;
-
     /**
      * Create a new controller instance.
      *
@@ -23,35 +23,20 @@ class PracticeController extends Controller
 
     public function learn()
     {
-        $bookmarkItemIds = Bookmark::select(['item_id'])->get()->pluck('item_id')->toArray();
-        $items = Item::whereIn('id', $bookmarkItemIds)->get();
+        $this->_getData();
 
-        $items = $this->randomActive($items->toArray(), 'random', self::MAX_ITEM);
-
-        return view('practice.show', [
-            'items' => $items,
-            'bookmarkItemIds' => $bookmarkItemIds,
-        ]);
+        return view('practice.show');
     }
 
     public function reload()
     {
         $responseObj = ['success' => false, 'data' => []];
 
-        $displayType = request()->displayType;
-
         try {
-            $bookmarkItemIds = Bookmark::select(['item_id'])->get()->pluck('item_id')->toArray();
-
-            $items = Item::whereIn('id', $bookmarkItemIds)->get();
-
-            $items = $this->randomActive($items->toArray(), $displayType, self::MAX_ITEM);
+            $this->_getData();
 
             $responseObj['success'] = true;
-            $responseObj['data'] = view('learning._form', [
-                'items' => $items,
-                'bookmarkItemIds' => $bookmarkItemIds
-            ])->render();
+            $responseObj['data'] = view('learning._form')->render();
 
             return response()->json($responseObj);
 
@@ -63,5 +48,23 @@ class PracticeController extends Controller
         }
 
         return response()->json($responseObj);
+    }
+
+    private function _getData()
+    {
+        $bookmarkItemIds = Bookmark::select(['item_id'])->get()->pluck('item_id')->toArray();
+
+        $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)->get()->pluck('lesson_id')->toArray();
+
+        $allItems = Item::whereIn('lesson_id', $lessonIds)->get();
+
+        $displayType = request()->input('displayType', 'random');
+
+        $items = $this->randomActive($allItems->toArray(), $displayType, config('constant.PER_PAGE'));
+
+        view()->share('items', $items);
+        view()->share('totalItems', count($allItems));
+        view()->share('totalLessons', count($lessonIds));
+        view()->share('bookmarkItemIds', $bookmarkItemIds);
     }
 }

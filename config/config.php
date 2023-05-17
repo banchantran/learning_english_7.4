@@ -12,5 +12,12 @@ return [
         '7' => '10 lessons recently',
     ],
 
+    'per_page' => [
+        '5' => '5 items',
+        '10' => '10 items',
+        '20' => '20 items',
+        '30' => '30 items',
+        '40' => '40 items',
+    ],
 
 ];

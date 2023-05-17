@@ -282,7 +282,7 @@ input.highlight {
     border-radius: 5px;
 }
 
-.group-actions select.display-type {
+.group-actions select.display-type, .group-actions select.range-type {
     width: auto;
     outline: none;
     border-color: #198754;
