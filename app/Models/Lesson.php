@@ -15,7 +15,7 @@ class Lesson extends Model
      * @var string[]
      */
     protected $fillable = [
-        'id', 'category_id', 'name',
+        'id', 'user_id', 'category_id', 'name',
     ];
 
     /**
