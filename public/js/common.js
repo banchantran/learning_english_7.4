@@ -322,6 +322,8 @@ System.markCompleted = function (e) {
 System.reloadFormLearning = function (e) {
     let url = $(e).attr('data-url'),
         formLearning = $('.form-learning'),
+        perPage = $('select.per-page').val(),
+        rangeTime = $('select.range-time').val(),
         displayType = $('select.display-type').val();
 
     System.showLoading();
@@ -331,7 +333,7 @@ System.reloadFormLearning = function (e) {
     $.ajax({
         url: url,
         type: 'get',
-        data: {'displayType': displayType},
+        data: {'displayType': displayType, 'perPage': perPage, 'rangeTime': rangeTime},
         dataType: 'json',
         success: function (obj) {
             if (obj.success) {

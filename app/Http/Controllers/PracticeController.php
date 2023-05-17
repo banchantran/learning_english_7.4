@@ -52,15 +52,15 @@ class PracticeController extends Controller
 
     private function _getData()
     {
+        $displayType = request()->input('displayType', 'random');
+        $rangeTime = request()->input('displayType', 'random');
+        $perPage = request()->input('perPage', config('constant.PER_PAGE'));
+
         $bookmarkItemIds = Bookmark::select(['item_id'])->get()->pluck('item_id')->toArray();
-
         $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)->get()->pluck('lesson_id')->toArray();
-
         $allItems = Item::whereIn('lesson_id', $lessonIds)->get();
 
-        $displayType = request()->input('displayType', 'random');
-
-        $items = $this->randomActive($allItems->toArray(), $displayType, config('constant.PER_PAGE'));
+        $items = $this->randomActive($allItems->toArray(), $displayType, $perPage);
 
         view()->share('items', $items);
         view()->share('totalItems', count($allItems));

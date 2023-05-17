@@ -28,7 +28,7 @@
         <div class="group-actions mb20">
             <div class="row">
                 <div class="col-8">
-                    <select class="form-select range-type d-inline-block" name="range_type" aria-label="Default select" onchange="$('.btn-reload').click()">
+                    <select class="form-select range-time d-inline-block" name="range_type" aria-label="Default select" onchange="$('.btn-reload').click()">
                         <option value="0">All lessons</option>
                         <option value="1">Lessons in this week</option>
                         <option value="3">Lessons in this month</option>
@@ -64,7 +64,7 @@
                 <div class="col-4">
                     <div class="float-end">
 
-                        <select class="form-select display-type d-inline-block" name="show_type" aria-label="Default select" onchange="$('.btn-reload').click()">
+                        <select class="form-select per-page d-inline-block" name="per_page" aria-label="Default select" onchange="$('.btn-reload').click()">
                             @foreach(config('config.per_page') as $key => $value)
                                 <option value="{{$key}}" {{$key == config('constant.PER_PAGE') ? 'selected' : ''}}>{{$value}}</option>
                             @endforeach
