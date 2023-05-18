@@ -60,6 +60,7 @@ class BookmarkController extends Controller
 
         view()->share('items', $items);
         view()->share('bookmarkItemIds', $bookmarkItemIds);
+        view()->share('totalItems', count($bookmarkItemIds));
     }
 
     public function store($itemId)

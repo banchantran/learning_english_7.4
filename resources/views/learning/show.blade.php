@@ -86,10 +86,6 @@
             </div>
         </div>
         <div class="clearfix"></div>
-        <div class="border border-dark p-4 rounded-3">
-            <div class="form-group form-lesson form-learning">
-                @include('learning._form')
-            </div>
-        </div>
+        @include('learning._form')
     </div>
 @endsection

@@ -52,6 +52,7 @@ class LearningController extends Controller
             'items' => $items,
             'wasCompleted' => $wasCompleted,
             'bookmarkItemIds' => $bookmarkItemIds,
+            'totalItems' => count($lesson->items->toArray()),
             'previousLesson' => $previousLesson,
             'nextLesson' => $nextLesson,
         ]);
@@ -118,7 +119,8 @@ class LearningController extends Controller
             $responseObj['data'] = view('learning._form', [
                 'lesson' => $lesson,
                 'items' => $items,
-                'bookmarkItemIds' => $bookmarkItemIds
+                'totalItems' => count($lesson->items->toArray()),
+                'bookmarkItemIds' => $bookmarkItemIds,
             ])->render();
 
             return response()->json($responseObj);

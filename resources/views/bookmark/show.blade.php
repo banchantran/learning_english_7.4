@@ -13,7 +13,7 @@
             <div class="col-4 d-flex align-items-center">
             </div>
             <div class="col-4 text-center">
-                <h2 class="lesson-name">Bookmark <span class="text-small"> - {{count($bookmarkItemIds)}} {{Str::plural('item', count($bookmarkItemIds))}}</span></h2>
+                <h2 class="lesson-name">Bookmark</h2>
             </div>
             <div class="col-4 text-end  d-flex align-items-center justify-content-end">
             </div>
@@ -62,10 +62,6 @@
             </div>
         </div>
         <div class="clearfix"></div>
-        <div class="border border-dark p-4 rounded-3">
-            <div class="form-group form-lesson form-learning">
-                @include('learning._form')
-            </div>
-        </div>
+        @include('learning._form', ['totalItems' => count($bookmarkItemIds)])
     </div>
 @endsection
