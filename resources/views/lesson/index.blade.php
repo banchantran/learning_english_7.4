@@ -37,9 +37,11 @@
         @endforeach
 
         @auth
-            <div class="col">
-                <div class="add-more" onclick="System.showModal('#createLesson', this)"><span class="line1"></span><span class="line2"></span></div>
-            </div>
+            @if ($lesson->user_id === auth()->user()->id)
+                <div class="col">
+                    <div class="add-more" onclick="System.showModal('#createLesson', this)"><span class="line1"></span><span class="line2"></span></div>
+                </div>
+            @endif
         @endauth
     </div>
 @endsection
