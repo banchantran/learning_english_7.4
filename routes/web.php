@@ -19,6 +19,20 @@ Route::get('/logout', [\App\Http\Controllers\UserController::class, 'logout'])->
 Route::post('/register', [\App\Http\Controllers\UserController::class, 'postRegister'])->name('user.postRegister');
 Route::get('/register', [\App\Http\Controllers\UserController::class, 'getRegister'])->name('user.getRegister');
 
+
+Route::middleware('auth')->group(function() {
+    Route::prefix('practice')->name('practice.')->group(function() {
+        Route::get('/learn', [\App\Http\Controllers\PracticeController::class, 'learn'])->name('learn');
+        Route::get('/reload', [\App\Http\Controllers\PracticeController::class, 'reload'])->name('reload');
+    });
+
+    Route::prefix('bookmark')->name('bookmark.')->group(function() {
+        Route::get('/learn', [\App\Http\Controllers\BookmarkController::class, 'learn'])->name('learn');
+        Route::get('/reload', [\App\Http\Controllers\BookmarkController::class, 'reload'])->name('reload');
+        Route::get('/store/{itemId}', [\App\Http\Controllers\BookmarkController::class, 'store'])->name('store');
+    });
+});
+
 Route::prefix('category')->name('category.')->group(function() {
     Route::get('/', [\App\Http\Controllers\CategoryController::class, 'index'])->name('index');
     Route::get('/show/{id}', [\App\Http\Controllers\CategoryController::class, 'show'])->name('show');
@@ -38,17 +52,6 @@ Route::prefix('learning')->name('learning.')->group(function() {
     Route::get('/lesson/{lessonId}', [\App\Http\Controllers\LearningController::class, 'show'])->name('show');
     Route::get('/lesson/{lessonId}/markCompleted', [\App\Http\Controllers\LearningController::class, 'markCompleted'])->name('mark_completed');
     Route::get('/lesson/{lessonId}/reload', [\App\Http\Controllers\LearningController::class, 'reload'])->name('reload');
-});
-
-Route::prefix('bookmark')->name('bookmark.')->group(function() {
-    Route::get('/learn', [\App\Http\Controllers\BookmarkController::class, 'learn'])->name('learn');
-    Route::get('/reload', [\App\Http\Controllers\BookmarkController::class, 'reload'])->name('reload');
-    Route::get('/store/{itemId}', [\App\Http\Controllers\BookmarkController::class, 'store'])->name('store');
-});
-
-Route::prefix('practice')->name('practice.')->group(function() {
-    Route::get('/learn', [\App\Http\Controllers\PracticeController::class, 'learn'])->name('learn');
-    Route::get('/reload', [\App\Http\Controllers\PracticeController::class, 'reload'])->name('reload');
 });
 
 Route::prefix('search')->name('search.')->group(function() {

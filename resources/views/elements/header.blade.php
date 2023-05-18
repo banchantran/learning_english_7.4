@@ -13,10 +13,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{url(route('home'))}}">Category</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{url(route('bookmark.learn'))}}">Bookmark</a>
-                </li>
                 @auth
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url(route('bookmark.learn'))}}">Bookmark</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{url(route('practice.learn'))}}">Practice</a>
                     </li>

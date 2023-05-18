@@ -29,14 +29,9 @@
             <div class="row">
                 <div class="col-8">
                     <select class="form-select range-time d-inline-block" name="range_type" aria-label="Default select" onchange="$('.btn-reload').click()">
-                        <option value="0">All lessons</option>
-                        <option value="1">Lessons in this week</option>
-                        <option value="3">Lessons in this month</option>
-                        <option value="2">Lessons in last week</option>
-                        <option value="4">Lessons in last month</option>
-                        <option value="5" selected>3 lessons recently</option>
-                        <option value="6">7 lessons recently</option>
-                        <option value="7">10 lessons recently</option>
+                        @foreach(config('config.range_practice') as $value => $option)
+                            <option value="{{$value}}" {{$value == config('constant.PRACTICE_3_RECENTLY') ? 'selected' : ''}}>{{$option}}</option>
+                        @endforeach
                     </select>
                     <select class="form-select display-type d-inline-block" name="show_type" aria-label="Default select" onchange="$('.btn-reload').click()">
                         <option value="random">Random</option>

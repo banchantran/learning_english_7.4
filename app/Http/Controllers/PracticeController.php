@@ -53,11 +53,81 @@ class PracticeController extends Controller
     private function _getData()
     {
         $displayType = request()->input('displayType', 'random');
-        $rangeTime = request()->input('displayType', 'random');
+        $rangeTime = request()->input('rangeType', config('constant.PRACTICE_3_RECENTLY'));
         $perPage = request()->input('perPage', config('constant.PER_PAGE'));
 
         $bookmarkItemIds = Bookmark::select(['item_id'])->get()->pluck('item_id')->toArray();
-        $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)->get()->pluck('lesson_id')->toArray();
+
+        switch ($rangeTime) {
+            case config('constant.PRACTICE_ALL'):
+                $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)
+                    ->get()
+                    ->pluck('lesson_id')
+                    ->toArray();
+                break;
+            case config('constant.PRACTICE_THIS_WEEK'):
+                $fromDate = date('Y-m-d', strtotime("monday -1 week"));
+                $toDate = date('Y-m-d', strtotime("sunday 0 week"));
+
+                $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)
+                    ->where('finished_date', '>=', $fromDate)
+                    ->where('finished_date', '<=', $toDate)
+                    ->get()->pluck('lesson_id')->toArray();
+
+                break;
+            case config('constant.PRACTICE_THIS_MONTH'):
+                $fromDate = date('Y-m-01');
+                $toDate = date('Y-m-t');
+
+                $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)
+                    ->where('finished_date', '>=', $fromDate)
+                    ->where('finished_date', '<=', $toDate)
+                    ->get()->pluck('lesson_id')->toArray();
+
+                break;
+            case config('constant.PRACTICE_LAST_WEEK'):
+                $fromDate = date('Y-m-d', strtotime("monday -2 week"));
+                $toDate = date('Y-m-d', strtotime("sunday -1 week"));
+
+                $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)
+                    ->where('finished_date', '>=', $fromDate)
+                    ->where('finished_date', '<=', $toDate)
+                    ->get()->pluck('lesson_id')->toArray();
+
+                break;
+            case config('constant.PRACTICE_LAST_MONTH'):
+                $fromDate = date('Y-m-01', strtotime("-1 month"));
+                $toDate = date('Y-m-t', strtotime("-1 month"));
+
+                $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)
+                    ->where('finished_date', '>=', $fromDate)
+                    ->where('finished_date', '<=', $toDate)
+                    ->get()->pluck('lesson_id')->toArray();
+
+                break;
+            case config('constant.PRACTICE_3_RECENTLY'):
+                $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)
+                    ->orderBy('finished_date', 'desc')
+                    ->limit(3)
+                    ->get()->pluck('lesson_id')->toArray();
+
+                break;
+            case config('constant.PRACTICE_7_RECENTLY'):
+                $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)
+                    ->orderBy('finished_date', 'desc')
+                    ->limit(7)
+                    ->get()->pluck('lesson_id')->toArray();
+
+                break;
+            case config('constant.PRACTICE_10_RECENTLY'):
+                $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)
+                    ->orderBy('finished_date', 'desc')
+                    ->limit(10)
+                    ->get()->pluck('lesson_id')->toArray();
+
+                break;
+        }
+
         $allItems = Item::whereIn('lesson_id', $lessonIds)->get();
 
         $items = $this->randomActive($allItems->toArray(), $displayType, $perPage);
