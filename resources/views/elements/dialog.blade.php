@@ -166,7 +166,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-red" data-url="" onclick="System.deleteConfirm(this)">OK
+                <button type="button" class="btn btn-red btn-approve-delete" data-url="" onclick="System.deleteConfirm(this)">OK
                 </button>
             </div>
         </div>

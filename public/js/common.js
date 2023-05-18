@@ -133,7 +133,7 @@ System.showModal = function (modalId, e) {
     let modal = $(modalId);
 
     if ($(e).attr('data-url')) {
-        modal.find('.btn-primary').attr('data-url', $(e).attr('data-url'));
+        modal.find('.btn-approve-delete').attr('data-url', $(e).attr('data-url'));
     }
 
     System.resetModal(modalId);
