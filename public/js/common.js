@@ -237,7 +237,7 @@ System.checkResult = function () {
     formLearning.find('input.input-learning').each(function (i, item) {
         let correctAnswer = $(item).next('.text-suggest').html();
 
-        if ($(item).val() === correctAnswer) {
+        if ($(item).val().toLowerCase() === correctAnswer.toLowerCase()) {
             totalCorrectAnswer++;
             $(item).removeClass('highlight');
         } else {
