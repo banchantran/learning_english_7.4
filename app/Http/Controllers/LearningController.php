@@ -9,6 +9,7 @@ use App\Models\Lesson;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\View;
 
 class LearningController extends Controller
 {
@@ -19,6 +20,7 @@ class LearningController extends Controller
      */
     public function __construct()
     {
+        View::share('activeNav', 'category');
     }
 
     public function show($lessonId)

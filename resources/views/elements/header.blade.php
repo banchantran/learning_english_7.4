@@ -7,17 +7,17 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Dashboard</a>
+                <li class="nav-item {{$activeNav === 'home' ? 'active' : ''}} mr-10">
+                    <a class="nav-link" href="{{url(route('home'))}}">Home</a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item {{$activeNav === 'category' ? 'active' : ''}} mr-10">
                     <a class="nav-link" href="{{url(route('home'))}}">Category</a>
                 </li>
                 @auth
-                    <li class="nav-item">
+                    <li class="nav-item {{$activeNav === 'bookmark' ? 'active' : ''}} mr-10">
                         <a class="nav-link" href="{{url(route('bookmark.learn'))}}">Bookmark</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item {{$activeNav === 'practice' ? 'active' : ''}} mr-10">
                         <a class="nav-link" href="{{url(route('practice.learn'))}}">Practice</a>
                     </li>
                 @endauth

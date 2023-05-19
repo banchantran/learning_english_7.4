@@ -8,6 +8,7 @@ use App\Models\Lesson;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 
 class BookmarkController extends Controller
 {
@@ -18,6 +19,7 @@ class BookmarkController extends Controller
      */
     public function __construct()
     {
+        View::share('activeNav', 'bookmark');
     }
 
     public function learn()

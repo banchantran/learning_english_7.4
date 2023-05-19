@@ -420,3 +420,7 @@ form.form-login {
     background-color: #ec8d8d;
     border-color: #ec8d8d;
 }
+
+.navbar-nav li.active, .navbar-nav li:hover {
+    border-bottom: 2px solid #ec8d8d;
+}

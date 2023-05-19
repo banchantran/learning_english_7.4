@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 
 class LessonController extends Controller
@@ -23,6 +24,7 @@ class LessonController extends Controller
      */
     public function __construct()
     {
+        View::share('activeNav', 'category');
     }
 
     public function index($categoryId)

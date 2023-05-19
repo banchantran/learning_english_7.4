@@ -9,6 +9,7 @@ use App\Models\Lesson;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 
 class PracticeController extends Controller
 {
@@ -19,6 +20,7 @@ class PracticeController extends Controller
      */
     public function __construct()
     {
+        View::share('activeNav', 'practice');
     }
 
     public function learn()

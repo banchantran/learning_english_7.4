@@ -28,5 +28,6 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
 
         View::share('hideSearchBar', false);
+        View::share('activeNav', '');
     }
 }
