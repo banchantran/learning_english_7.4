@@ -52,15 +52,15 @@ class BookmarkController extends Controller
     private function _getData()
     {
         $bookmarkItemIds = Bookmark::select(['item_id'])->get()->pluck('item_id')->toArray();
-        $items = Item::whereIn('id', $bookmarkItemIds)->get();
+        $allItems = Item::whereIn('id', $bookmarkItemIds)->get();
 
         $displayType = !empty(request()->displayType) ? request()->displayType : 'random';
 
-        $items = $this->randomActive($items->toArray(), $displayType, config('constant.PER_PAGE'));
+        $items = $this->randomActive($allItems->toArray(), $displayType, config('constant.PER_PAGE'));
 
         view()->share('items', $items);
         view()->share('bookmarkItemIds', $bookmarkItemIds);
-        view()->share('totalItems', count($bookmarkItemIds));
+        view()->share('totalItems', count($allItems));
     }
 
     public function store($itemId)

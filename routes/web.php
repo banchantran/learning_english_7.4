@@ -31,6 +31,10 @@ Route::middleware('auth')->group(function() {
         Route::get('/reload', [\App\Http\Controllers\BookmarkController::class, 'reload'])->name('reload');
         Route::get('/store/{itemId}', [\App\Http\Controllers\BookmarkController::class, 'store'])->name('store');
     });
+
+    Route::prefix('user')->name('user.')->group(function() {
+        Route::post('/update-display-flag', [\App\Http\Controllers\UserController::class, 'updateDisplayFlag'])->name('updateDisplayFlag');
+    });
 });
 
 Route::prefix('category')->name('category.')->group(function() {

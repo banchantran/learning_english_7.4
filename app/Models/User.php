@@ -24,6 +24,7 @@ class User extends Authenticatable
         'email',
         'username',
         'password',
+        'display_all_categories_flag',
         'del_flag',
     ];
 

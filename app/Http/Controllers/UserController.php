@@ -92,4 +92,11 @@ class UserController extends Controller
 
         return redirect()->route('user.getRegister');
     }
+
+    public function updateDisplayFlag(Request $request)
+    {
+        User::where('id', Auth::user()->id)->update(['display_all_categories_flag' => $request->display_all_categories_flag]);
+
+        return redirect()->route('home');
+    }
 }

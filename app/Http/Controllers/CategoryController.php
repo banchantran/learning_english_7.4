@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
+use App\Models\Bookmark;
 use App\Models\Category;
 use App\Models\Item;
 use App\Models\Lesson;
@@ -25,18 +26,21 @@ class CategoryController extends Controller
     public function index()
     {
         if (Auth::check()) {
-            $publicData = Category::with(['user'])
-                ->where('del_flag', 0)
-                ->where('user_id', '!=', Auth::user()->id)
-                ->where('is_public', 1)
-                ->where('del_flag', 0)
-                ->orderBy('id');
-
             $data = Category::with(['user'])
                 ->where('del_flag', 0)
                 ->where('user_id', Auth::user()->id)
-                ->orderBy('id')
-                ->union($publicData);
+                ->orderBy('id');
+
+            if (Auth::user()->display_all_categories_flag === config('constant.DISPLAY_ALL_CATEGORIES')) {
+                $publicCategories = Category::with(['user'])
+                    ->where('del_flag', 0)
+                    ->where('user_id', '!=', Auth::user()->id)
+                    ->where('is_public', 1)
+                    ->where('del_flag', 0)
+                    ->orderBy('id');
+
+                $data = $data->union($publicCategories);
+            }
 
         } else {
             $data = Category::with(['user'])

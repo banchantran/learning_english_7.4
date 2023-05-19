@@ -2,18 +2,42 @@
 @section('breadcrumb')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{url(route('home'))}}">Home</a></li>
             <li class="breadcrumb-item active" aria-current="page">Category</li>
         </ol>
     </nav>
 @endsection
 @section('content')
     @auth
-        <div class="d-flex justify-content-end mb15">
-            <button class="btn btn-dark" type="button" onclick="System.showModal('#createCategory', this)">Add</button>
+        <div class="row">
+            @auth
+                <div class="col-6">
+                    <form action="{{url(route('user.updateDisplayFlag'))}}" method="post" id="formUpdateDisplayFlag">
+                        @csrf
+                        <div class="form-check mt-3">
+                            <input class="form-check-input" name="display_all_categories_flag" type="checkbox" value="1" {{Auth::user()->display_all_categories_flag ? 'checked' : ''}} id="showMyData" onchange="System.showLoading();$('#formUpdateDisplayFlag').submit()">
+                            <label class="form-check-label" for="showMyData">
+                                Display all categories
+                            </label>
+                        </div>
+                    </form>
+                </div>
+            @endauth
+            <div class="col-6">
+                <div class="d-flex justify-content-end mb15">
+                    <button class="btn btn-red d-flex align-items-center" type="button" onclick="System.showModal('#createCategory', this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512">
+                            <path fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32" d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192s192-86 192-192Z"/>
+                            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M256 176v160m80-80H176"/>
+                        </svg>
+                        <span class="ml05">Add</span>
+                    </button>
+                </div>
+            </div>
         </div>
     @endauth
-    <div class="row mb-20">
+    <hr class="default">
+    <div class="row mb-20 mt-3">
         <div class="col-12">
             <div class="records">
                 @include('elements.paging', ['paginator' => $data])
