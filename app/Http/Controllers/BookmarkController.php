@@ -81,7 +81,7 @@ class BookmarkController extends Controller
         $responseObj = ['success' => false, 'data' => []];
 
         try {
-            $bookmark = Bookmark::where('item_id', $itemId)->first();
+            $bookmark = Bookmark::where('item_id', $itemId)->where('user_id', Auth::user()->id)->first();
 
             if (empty($bookmark)) {
                 Bookmark::create([
