@@ -32,9 +32,9 @@
                         @endforeach
                     </select>
                     <select class="form-select display-type d-inline-block" name="show_type" aria-label="Default select" onchange="$('.btn-reload').click()">
-                        <option value="random">Random</option>
-                        <option value="text_source">Learning source</option>
-                        <option value="text_destination">Learning destination</option>
+                        @foreach(config('config.learning_type') as $value => $text)
+                            <option value="{{$value}}">{{$text}}</option>
+                        @endforeach
                     </select>
                     <button type="button" class="btn btn-outline-success" onclick="System.showSuggestion(this)">
                         <p class="d-flex align-items-center">
