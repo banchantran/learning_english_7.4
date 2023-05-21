@@ -33,11 +33,13 @@ class BookmarkController extends Controller
     {
         $responseObj = ['success' => false, 'data' => []];
 
+        $displayType = !empty(request()->displayType) ? request()->displayType : 'random';
+
         try {
             $this->_getData();
 
             $responseObj['success'] = true;
-            $responseObj['data'] = view('learning._form')->render();
+            $responseObj['data'] = view($displayType == 'learn_listening' ? 'learning._form_listening' : 'learning._form')->render();
 
             return response()->json($responseObj);
 
@@ -53,12 +55,21 @@ class BookmarkController extends Controller
 
     private function _getData()
     {
-        $bookmarkItemIds = Bookmark::select(['item_id'])->get()->pluck('item_id')->toArray();
-        $allItems = Item::whereIn('id', $bookmarkItemIds)->get();
-
         $displayType = !empty(request()->displayType) ? request()->displayType : 'random';
+        $perPage = request()->input('perPage', config('constant.PER_PAGE'));
 
-        $items = $this->randomActive($allItems->toArray(), $displayType, config('constant.PER_PAGE'));
+        $bookmarkItemIds = Bookmark::select(['item_id'])->get()->pluck('item_id')->toArray();
+
+        if ($displayType == 'learn_listening') {
+            $allItems = Item::whereIn('id', $bookmarkItemIds)
+                ->whereNotNull('audio_path')
+                ->where('audio_path', '!=', '')
+                ->get();
+        } else {
+            $allItems = Item::whereIn('id', $bookmarkItemIds)->get();
+        }
+
+        $items = $this->randomActive($allItems->toArray(), $displayType, $perPage);
 
         view()->share('items', $items);
         view()->share('bookmarkItemIds', $bookmarkItemIds);

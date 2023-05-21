@@ -1,6 +1,13 @@
 <?php
 
 return [
+    'learning_type' => [
+        'random' => 'Random',
+        'display_source' => 'Enter Source',
+        'display_destination' => 'Enter Destination',
+        'learn_listening' => 'Learn Listening',
+    ],
+
     'range_practice' => [
         '0' => 'All lessons',
         '1' => 'Lessons in this week',

@@ -24,9 +24,9 @@
             <div class="row">
                 <div class="col-6">
                     <select class="form-select display-type d-inline-block" name="show_type" aria-label="Default select" onchange="$('.btn-reload').click()">
-                        <option value="random">Random</option>
-                        <option value="text_source">Learning source</option>
-                        <option value="text_destination">Learning destination</option>
+                        @foreach(config('config.learning_type') as $value => $text)
+                            <option value="{{$value}}">{{$text}}</option>
+                        @endforeach
                     </select>
                     <button type="button" class="btn btn-outline-success" onclick="System.showSuggestion(this)">
                         <p class="d-flex align-items-center">
@@ -48,6 +48,11 @@
                 </div>
                 <div class="col-6">
                     <div class="float-end">
+                        <select class="form-select per-page d-inline-block" name="per_page" aria-label="Default select" onchange="$('.btn-reload').click()">
+                            @foreach(config('config.per_page') as $key => $value)
+                                <option value="{{$key}}" {{$key == config('constant.PER_PAGE') ? 'selected' : ''}}>{{$value}}</option>
+                            @endforeach
+                        </select>
                         <button type="button" class="btn btn-outline-success" onclick="System.checkResult()">
                             <p class="d-flex align-items-center">
                                 <img src="{{url('img/signal.png')}}" alt="reload" width="15px" class="mr-10">
@@ -62,6 +67,6 @@
             </div>
         </div>
         <div class="clearfix"></div>
-        @include('learning._form', ['totalItems' => count($bookmarkItemIds)])
+        @include('learning._form')
     </div>
 @endsection

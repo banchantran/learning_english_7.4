@@ -16,26 +16,17 @@
         <div class="form-group form-lesson">
 
             @foreach($items as $item)
+
+{{--                @if(empty($item->audio_path)) @continue @endif--}}
+
                 <input type="hidden" name="id" value="{{$item['id']}}">
 
                 <div class="row root-row">
                     <div class="col-11">
                         <div class="row">
-                            <div class="col-6">
-                                @if ($item['field_to_learn'] == 'display_source')
-                                    <input class="input-learning" type="text" placeholder="" name="source[]" value="">
-                                    <p class="text-suggest">{{$item['text_source']}}</p>
-                                @else
-                                    <p class="plain-text">{{$item['text_source']}}</p>
-                                @endif
-                            </div>
-                            <div class="col-6">
-                                @if ($item['field_to_learn'] == 'display_destination')
-                                    <input class="input-learning" type="text" placeholder="" name="destination[]" value="">
-                                    <p class="text-suggest">{{$item['text_destination']}}</p>
-                                @else
-                                    <p class="plain-text">{{$item['text_destination']}}</p>
-                                @endif
+                            <div class="col-12">
+                                <input class="input-learning" type="text" placeholder="" name="source[]" value="">
+                                <p class="text-suggest">{{$item['text_source']}}</p>
                             </div>
                         </div>
                     </div>

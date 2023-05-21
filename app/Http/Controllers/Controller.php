@@ -13,14 +13,14 @@ class Controller extends BaseController
 
     /**
      * @param $items
-     * @param string $displayType random | text_source | text_destination
+     * @param string $displayType random | display_source | display_destination
      * @param integer $maxItem
      * @return mixed
      */
     protected function randomActive($items, $displayType = 'random', $maxItem = 100)
     {
-        $hiddenField = 'text_source';
-        $showField = 'text_destination';
+        $hiddenField = 'display_source';
+        $showField = 'display_destination';
 
         if (count($items) > 1) {
             $activeItemIds = array_rand($items, floor(count($items) / 2));
@@ -30,6 +30,11 @@ class Controller extends BaseController
         }
 
         foreach ($items as $index => $item) {
+            if ($displayType == 'learn_listening' && empty($item['audio_path'])) {
+                unset($items[$index]);
+                continue;
+            }
+
             if (count($items) == 1) {
                 $items[$index]['field_to_learn'] = [$hiddenField, $showField][array_rand([$hiddenField, $showField], 1)];
 

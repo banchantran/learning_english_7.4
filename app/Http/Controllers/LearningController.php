@@ -118,10 +118,10 @@ class LearningController extends Controller
             $items = $this->randomActive($lesson->items->toArray(), $displayType);
 
             $responseObj['success'] = true;
-            $responseObj['data'] = view('learning._form', [
+            $responseObj['data'] = view($displayType == 'learn_listening' ? 'learning._form_listening' : 'learning._form', [
                 'lesson' => $lesson,
                 'items' => $items,
-                'totalItems' => count($lesson->items->toArray()),
+                'totalItems' => count($items),
                 'bookmarkItemIds' => $bookmarkItemIds,
             ])->render();
 
