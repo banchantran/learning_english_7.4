@@ -34,11 +34,13 @@ class PracticeController extends Controller
     {
         $responseObj = ['success' => false, 'data' => []];
 
+        $displayType = request()->input('displayType', 'random');
+
         try {
             $this->_getData();
 
             $responseObj['success'] = true;
-            $responseObj['data'] = view('learning._form')->render();
+            $responseObj['data'] = view($displayType == 'learn_listening' ? 'learning._form_listening' : 'learning._form')->render();
 
             return response()->json($responseObj);
 
@@ -130,7 +132,14 @@ class PracticeController extends Controller
                 break;
         }
 
-        $allItems = Item::whereIn('lesson_id', $lessonIds)->get();
+        if ($displayType == 'learn_listening') {
+            $allItems = Item::whereIn('lesson_id', $lessonIds)
+                ->whereNotNulL('audio_path')
+                ->where('audio_path', '!=', '')
+                ->get();
+        } else {
+            $allItems = Item::whereIn('lesson_id', $lessonIds)->get();
+        }
 
         $items = $this->randomActive($allItems->toArray(), $displayType, $perPage);
 
