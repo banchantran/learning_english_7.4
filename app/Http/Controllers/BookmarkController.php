@@ -58,7 +58,7 @@ class BookmarkController extends Controller
         $displayType = !empty(request()->displayType) ? request()->displayType : 'random';
         $perPage = request()->input('perPage', config('constant.PER_PAGE'));
 
-        $bookmarkItemIds = Bookmark::select(['item_id'])->get()->pluck('item_id')->toArray();
+        $bookmarkItemIds = Bookmark::select(['item_id'])->where('user_id', Auth::user()->id)->get()->pluck('item_id')->toArray();
 
         if ($displayType == 'learn_listening') {
             $allItems = Item::whereIn('id', $bookmarkItemIds)
