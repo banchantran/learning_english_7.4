@@ -57,7 +57,7 @@ class DashboardController extends Controller
     {
         $result = [];
 
-        for ($i = 30; $i > 0; $i--) {
+        for ($i = 29; $i >= 0; $i--) {
             $iteratorDate = date('Y-m-d', strtotime("- $i days"));
             $date = date('F-d', strtotime("- $i days"));
             $previousDate = date('F-d', strtotime("-1 day", strtotime($date)));
