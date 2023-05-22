@@ -35,6 +35,10 @@ Route::middleware('auth')->group(function() {
     Route::prefix('user')->name('user.')->group(function() {
         Route::post('/update-display-flag', [\App\Http\Controllers\UserController::class, 'updateDisplayFlag'])->name('updateDisplayFlag');
     });
+
+    Route::prefix('dashboard')->name('dashboard.')->group(function() {
+        Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('index');
+    });
 });
 
 Route::prefix('category')->name('category.')->group(function() {

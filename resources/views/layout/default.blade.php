@@ -10,11 +10,13 @@
         @include('elements.header')
     </div>
 
-    <div class="container-fluid">
-        <div id="breadcrumbWrap" class="alert-secondary alert">
-            @yield('breadcrumb')
+    @if ($activeNav !== 'dashboard')
+        <div class="container-fluid">
+            <div id="breadcrumbWrap" class="alert-secondary alert">
+                @yield('breadcrumb')
+            </div>
         </div>
-    </div>
+    @endif
 
     @include('elements.flash-messages')
 
