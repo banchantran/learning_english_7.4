@@ -99,6 +99,7 @@ class CategoryController extends Controller
             $category = Category::find($request->id);
             $category->name = $request->name;
             $category->is_public = $request->is_public;
+            $category->language_type = $request->language_type;
 
             $category->save();
             request()->session()->flash('success', config('messages.UPDATE_SUCCESS'));
@@ -107,6 +108,7 @@ class CategoryController extends Controller
                 'name' => $request->name,
                 'is_public' => $request->is_public ? 1 : 0,
                 'user_id' => Auth::user()->id,
+                'language_type' => $request->language_type,
             ]);
 
             $category->save();

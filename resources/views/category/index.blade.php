@@ -49,6 +49,7 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Name</th>
+            <th scope="col">Language</th>
             <th scope="col">Numbers of lessons</th>
             <th scope="col">Public for everyone</th>
             <th scope="col">Owner</th>
@@ -62,6 +63,7 @@
             <tr>
                 <th scope="row">{{ $index + 1 + (($data->currentPage() - 1) * $data->perPage()) }}</th>
                 <td><span>{{$item->name}}</span>
+                <td><span>{{isset(config('config.language_type')[$item->language_type]) ? config('config.language_type')[$item->language_type] : ''}}</span>
                 </td>
                 <td>
                     <a class="link-success" href="{{url(route('lesson.index', ['categoryId' => $item->id]))}}">
@@ -99,7 +101,7 @@
         @endforeach
         @if (count($data) == 0)
             <tr>
-                <td colspan="@auth 6 @else 5 @endauth" align="center">No data</td>
+                <td colspan="@auth 7 @else 6 @endauth" align="center">No data</td>
             </tr>
         @endif
         </tbody>

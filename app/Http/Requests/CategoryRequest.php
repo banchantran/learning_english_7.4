@@ -22,14 +22,16 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required'
+            'name' => 'required',
+            'language_type' => 'required',
         ];
     }
 
     public function attributes()
     {
         return [
-            'name' => 'Category name'
+            'name' => 'Category name',
+            'language_type' => 'Language',
         ];
     }
 }

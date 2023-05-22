@@ -134,6 +134,15 @@
                                aria-describedby="nameCategory"
                                placeholder="">
                     </div>
+                    <div class="form-group mt-3">
+                        <label for="nameCategory" class="d-block mb-1">Language</label>
+                        <select class="form-select language-type d-block" name="language_type" aria-label="Default select">
+                            @foreach(config('config.language_type') as $value => $text)
+                                <option value="{{$value}}">{{$text}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <div class="form-check mt-3">
                         <input class="form-check-input" name="is_public" type="checkbox" value="1" checked="checked" id="defaultCheck1">
                         <label class="form-check-label" for="defaultCheck1">

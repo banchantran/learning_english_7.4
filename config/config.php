@@ -27,4 +27,10 @@ return [
         '40' => '40 items',
     ],
 
+    'language_type' => [
+        '1' => 'English',
+        '2' => 'Japanese',
+        '3' => 'Chinese',
+    ],
+
 ];

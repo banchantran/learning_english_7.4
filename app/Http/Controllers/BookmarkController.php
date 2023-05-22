@@ -64,9 +64,10 @@ class BookmarkController extends Controller
             $allItems = Item::whereIn('id', $bookmarkItemIds)
                 ->whereNotNull('audio_path')
                 ->where('audio_path', '!=', '')
+                ->where('del_flag', 0)
                 ->get();
         } else {
-            $allItems = Item::whereIn('id', $bookmarkItemIds)->get();
+            $allItems = Item::whereIn('id', $bookmarkItemIds)->where('del_flag', 0)->get();
         }
 
         $items = $this->randomActive($allItems->toArray(), $displayType, $perPage);

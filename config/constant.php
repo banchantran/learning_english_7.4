@@ -12,4 +12,8 @@ return [
 
     'DISPLAY_ALL_CATEGORIES' => 1,
     'PER_PAGE' => 10,
+
+    'LANGUAGE_TYPE_ENGLISH' => 1,
+    'LANGUAGE_TYPE_JAPANESE' => 2,
+    'LANGUAGE_TYPE_CHINESE' => 3,
 ];
