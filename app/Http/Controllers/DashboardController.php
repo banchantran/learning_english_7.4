@@ -77,7 +77,7 @@ class DashboardController extends Controller
 
             $lessonIds = Arr::pluck($lessonCompleted, 'lesson_id');
 
-            $result[$date] += Item::where('del_flag', 0)->where('lesson_id', $lessonIds)->count();
+            $result[$date] += Item::where('del_flag', 0)->whereIn('lesson_id', $lessonIds)->count();
         }
 
         return $result;
