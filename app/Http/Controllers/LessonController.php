@@ -231,6 +231,7 @@ class LessonController extends Controller
         try {
             Lesson::where('id', $lessonId)->update(['del_flag' => 1]);
             Item::where('lesson_id', $lessonId)->update(['del_flag' => 1]);
+            CompletedLesson::where('lesson_id', $lessonId)->where('user_id', Auth::user()->id)->delete();
 
             $responseObj['success'] = true;
 
