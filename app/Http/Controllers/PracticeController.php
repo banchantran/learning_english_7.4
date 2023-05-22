@@ -65,7 +65,6 @@ class PracticeController extends Controller
         switch (true) {
             case $rangeTime == config('constant.PRACTICE_ALL'):
                 $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)
-                    ->where('del_flag', 0)
                     ->get()
                     ->pluck('lesson_id')
                     ->toArray();
@@ -75,7 +74,6 @@ class PracticeController extends Controller
                 $toDate = date('Y-m-d', strtotime("sunday 0 week"));
 
                 $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)
-                    ->where('del_flag', 0)
                     ->where('finished_date', '>=', $fromDate)
                     ->where('finished_date', '<=', $toDate)
                     ->get()->pluck('lesson_id')->toArray();
@@ -86,7 +84,6 @@ class PracticeController extends Controller
                 $toDate = date('Y-m-t');
 
                 $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)
-                    ->where('del_flag', 0)
                     ->where('finished_date', '>=', $fromDate)
                     ->where('finished_date', '<=', $toDate)
                     ->get()->pluck('lesson_id')->toArray();
@@ -97,7 +94,6 @@ class PracticeController extends Controller
                 $toDate = date('Y-m-d', strtotime("sunday -1 week"));
 
                 $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)
-                    ->where('del_flag', 0)
                     ->where('finished_date', '>=', $fromDate)
                     ->where('finished_date', '<=', $toDate)
                     ->get()->pluck('lesson_id')->toArray();
@@ -108,7 +104,6 @@ class PracticeController extends Controller
                 $toDate = date('Y-m-t', strtotime("-1 month"));
 
                 $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)
-                    ->where('del_flag', 0)
                     ->where('finished_date', '>=', $fromDate)
                     ->where('finished_date', '<=', $toDate)
                     ->get()->pluck('lesson_id')->toArray();
@@ -116,7 +111,6 @@ class PracticeController extends Controller
                 break;
             case $rangeTime == config('constant.PRACTICE_3_RECENTLY'):
                 $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)
-                    ->where('del_flag', 0)
                     ->orderBy('finished_date', 'desc')
                     ->limit(3)
                     ->get()->pluck('lesson_id')->toArray();
@@ -124,7 +118,6 @@ class PracticeController extends Controller
                 break;
             case $rangeTime == config('constant.PRACTICE_7_RECENTLY'):
                 $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)
-                    ->where('del_flag', 0)
                     ->orderBy('finished_date', 'desc')
                     ->limit(7)
                     ->get()->pluck('lesson_id')->toArray();
@@ -132,7 +125,6 @@ class PracticeController extends Controller
                 break;
             case $rangeTime == config('constant.PRACTICE_10_RECENTLY'):
                 $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)
-                    ->where('del_flag', 0)
                     ->orderBy('finished_date', 'desc')
                     ->limit(10)
                     ->get()->pluck('lesson_id')->toArray();
