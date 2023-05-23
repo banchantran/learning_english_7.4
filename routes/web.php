@@ -39,6 +39,11 @@ Route::middleware('auth')->group(function() {
     Route::prefix('dashboard')->name('dashboard.')->group(function() {
         Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('index');
     });
+
+    Route::prefix('crawl')->name('crawl.')->group(function() {
+        Route::get('/', [\App\Http\Controllers\CrawlController::class, 'index'])->name('index');
+        Route::post('/', [\App\Http\Controllers\CrawlController::class, 'index'])->name('index');
+    });
 });
 
 Route::prefix('category')->name('category.')->group(function() {
