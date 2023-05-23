@@ -78,7 +78,7 @@ System.showEditModal = function (modalId, e) {
 
             if (obj.success === true) {
                 $.each(obj.data, function (field, value) {
-                    modal.find('[name="' + field + '"]').each(function(i, item) {
+                    modal.find('[name="' + field + '"]').each(function (i, item) {
                         if ($(item).is(':checkbox')) {
                             $(item).prop('checked', value);
                         } else {

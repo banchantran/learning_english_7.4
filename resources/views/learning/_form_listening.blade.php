@@ -25,7 +25,7 @@
                     <div class="col-11">
                         <div class="row">
                             <div class="col-12">
-                                <input class="input-learning" type="text" placeholder="" name="source[]" value="">
+                                <input class="input-learning" type="text" placeholder="" name="source[]" value="" onfocusin="System.playAudio(this)">
                                 <p class="text-suggest">{{$item['text_source']}}</p>
                             </div>
                         </div>
