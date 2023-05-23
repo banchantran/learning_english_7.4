@@ -33,4 +33,10 @@ return [
         '3' => 'Chinese',
     ],
 
+    'language_type_text' => [
+        'english' => 1,
+        'japanese' => 2,
+        'chinese' => 3,
+    ],
+
 ];

@@ -7,9 +7,11 @@ use App\Models\CompletedLesson;
 use App\Models\Item;
 use App\Models\Lesson;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PracticeController extends Controller
 {
@@ -23,9 +25,17 @@ class PracticeController extends Controller
         View::share('activeNav', 'practice');
     }
 
-    public function learn()
+    public function learn(Request $request)
     {
-        $this->_getData();
+        $language = $request->query('language');
+
+        if (empty($language)) {
+            abort(404);
+        }
+
+        $request->session()->put('language', $language);
+
+        $this->_getData($language);
 
         return view('practice.show');
     }
@@ -37,7 +47,9 @@ class PracticeController extends Controller
         $displayType = request()->input('displayType', 'random');
 
         try {
-            $this->_getData();
+            $language = request()->session()->get('language');
+
+            $this->_getData($language);
 
             $responseObj['success'] = true;
             $responseObj['data'] = view($displayType == 'learn_listening' ? 'learning._form_listening' : 'learning._form')->render();
@@ -54,8 +66,13 @@ class PracticeController extends Controller
         return response()->json($responseObj);
     }
 
-    private function _getData()
+    private function _getData($language)
     {
+        $languageType = config('config.language_type_text');
+        if (!isset($languageType[$language])) {
+            abort(404);
+        }
+
         $displayType = request()->input('displayType', 'random');
         $rangeTime = request()->input('rangeTime', config('constant.PRACTICE_3_RECENTLY'));
         $perPage = request()->input('perPage', config('constant.PER_PAGE'));
@@ -64,18 +81,24 @@ class PracticeController extends Controller
 
         switch (true) {
             case $rangeTime == config('constant.PRACTICE_ALL'):
-                $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)
-                    ->get()
-                    ->pluck('lesson_id')
-                    ->toArray();
+                $lessonIds = DB::table('completed_lessons')
+                    ->join('lessons', 'completed_lessons.lesson_id', '=', 'lessons.id')
+                    ->join('categories', 'lessons.category_id', '=', 'categories.id')
+                    ->where('categories.language_type', $languageType[$language])
+                    ->where('completed_lessons.user_id', Auth::user()->id)
+                    ->get()->pluck('lesson_id')->toArray();
                 break;
             case $rangeTime == config('constant.PRACTICE_THIS_WEEK'):
                 $fromDate = date('Y-m-d', strtotime("monday -1 week"));
                 $toDate = date('Y-m-d', strtotime("sunday 0 week"));
 
-                $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)
-                    ->where('finished_date', '>=', $fromDate)
-                    ->where('finished_date', '<=', $toDate)
+                $lessonIds = DB::table('completed_lessons')
+                    ->join('lessons', 'completed_lessons.lesson_id', '=', 'lessons.id')
+                    ->join('categories', 'lessons.category_id', '=', 'categories.id')
+                    ->where('categories.language_type', $languageType[$language])
+                    ->where('completed_lessons.user_id', Auth::user()->id)
+                    ->where('completed_lessons.finished_date', '>=', $fromDate)
+                    ->where('completed_lessons.finished_date', '<=', $toDate)
                     ->get()->pluck('lesson_id')->toArray();
 
                 break;
@@ -83,9 +106,13 @@ class PracticeController extends Controller
                 $fromDate = date('Y-m-01');
                 $toDate = date('Y-m-t');
 
-                $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)
-                    ->where('finished_date', '>=', $fromDate)
-                    ->where('finished_date', '<=', $toDate)
+                $lessonIds = DB::table('completed_lessons')
+                    ->join('lessons', 'completed_lessons.lesson_id', '=', 'lessons.id')
+                    ->join('categories', 'lessons.category_id', '=', 'categories.id')
+                    ->where('categories.language_type', $languageType[$language])
+                    ->where('completed_lessons.user_id', Auth::user()->id)
+                    ->where('completed_lessons.finished_date', '>=', $fromDate)
+                    ->where('completed_lessons.finished_date', '<=', $toDate)
                     ->get()->pluck('lesson_id')->toArray();
 
                 break;
@@ -93,9 +120,13 @@ class PracticeController extends Controller
                 $fromDate = date('Y-m-d', strtotime("monday -2 week"));
                 $toDate = date('Y-m-d', strtotime("sunday -1 week"));
 
-                $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)
-                    ->where('finished_date', '>=', $fromDate)
-                    ->where('finished_date', '<=', $toDate)
+                $lessonIds = DB::table('completed_lessons')
+                    ->join('lessons', 'completed_lessons.lesson_id', '=', 'lessons.id')
+                    ->join('categories', 'lessons.category_id', '=', 'categories.id')
+                    ->where('categories.language_type', $languageType[$language])
+                    ->where('completed_lessons.user_id', Auth::user()->id)
+                    ->where('completed_lessons.finished_date', '>=', $fromDate)
+                    ->where('completed_lessons.finished_date', '<=', $toDate)
                     ->get()->pluck('lesson_id')->toArray();
 
                 break;
@@ -103,29 +134,45 @@ class PracticeController extends Controller
                 $fromDate = date('Y-m-01', strtotime("-1 month"));
                 $toDate = date('Y-m-t', strtotime("-1 month"));
 
-                $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)
-                    ->where('finished_date', '>=', $fromDate)
-                    ->where('finished_date', '<=', $toDate)
+                $lessonIds = DB::table('completed_lessons')
+                    ->join('lessons', 'completed_lessons.lesson_id', '=', 'lessons.id')
+                    ->join('categories', 'lessons.category_id', '=', 'categories.id')
+                    ->where('categories.language_type', $languageType[$language])
+                    ->where('completed_lessons.user_id', Auth::user()->id)
+                    ->where('completed_lessons.finished_date', '>=', $fromDate)
+                    ->where('completed_lessons.finished_date', '<=', $toDate)
                     ->get()->pluck('lesson_id')->toArray();
 
                 break;
             case $rangeTime == config('constant.PRACTICE_3_RECENTLY'):
-                $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)
-                    ->orderBy('finished_date', 'desc')
+                $lessonIds = DB::table('completed_lessons')
+                    ->join('lessons', 'completed_lessons.lesson_id', '=', 'lessons.id')
+                    ->join('categories', 'lessons.category_id', '=', 'categories.id')
+                    ->where('categories.language_type', $languageType[$language])
+                    ->where('completed_lessons.user_id', Auth::user()->id)
+                    ->orderBy('completed_lessons.finished_date', 'desc')
                     ->limit(3)
                     ->get()->pluck('lesson_id')->toArray();
 
                 break;
             case $rangeTime == config('constant.PRACTICE_7_RECENTLY'):
-                $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)
-                    ->orderBy('finished_date', 'desc')
+                $lessonIds = DB::table('completed_lessons')
+                    ->join('lessons', 'completed_lessons.lesson_id', '=', 'lessons.id')
+                    ->join('categories', 'lessons.category_id', '=', 'categories.id')
+                    ->where('categories.language_type', $languageType[$language])
+                    ->where('completed_lessons.user_id', Auth::user()->id)
+                    ->orderBy('completed_lessons.finished_date', 'desc')
                     ->limit(7)
                     ->get()->pluck('lesson_id')->toArray();
 
                 break;
             case $rangeTime == config('constant.PRACTICE_10_RECENTLY'):
-                $lessonIds = CompletedLesson::where('user_id', Auth::user()->id)
-                    ->orderBy('finished_date', 'desc')
+                $lessonIds = DB::table('completed_lessons')
+                    ->join('lessons', 'completed_lessons.lesson_id', '=', 'lessons.id')
+                    ->join('categories', 'lessons.category_id', '=', 'categories.id')
+                    ->where('categories.language_type', $languageType[$language])
+                    ->where('completed_lessons.user_id', Auth::user()->id)
+                    ->orderBy('completed_lessons.finished_date', 'desc')
                     ->limit(10)
                     ->get()->pluck('lesson_id')->toArray();
 

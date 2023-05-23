@@ -17,8 +17,15 @@
                     <li class="nav-item {{$activeNav === 'bookmark' ? 'active' : ''}} mr-10">
                         <a class="nav-link" href="{{url(route('bookmark.learn'))}}">Bookmark</a>
                     </li>
-                    <li class="nav-item {{$activeNav === 'practice' ? 'active' : ''}} mr-10">
-                        <a class="nav-link" href="{{url(route('practice.learn'))}}">Practice</a>
+                    <li class="nav-item {{$activeNav === 'practice' ? 'active' : ''}} mr-10 dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                            Practice
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{url(route('practice.learn', ['language' => 'english']))}}">English</a>
+                            <a class="dropdown-item" href="{{url(route('practice.learn', ['language' => 'japanese']))}}">Japanese</a>
+                            <a class="dropdown-item" href="{{url(route('practice.learn', ['language' => 'chinese']))}}">Chinese</a>
+                        </div>
                     </li>
                 @endauth
             </ul>
