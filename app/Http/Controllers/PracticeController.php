@@ -58,6 +58,8 @@ class PracticeController extends Controller
 
         } catch (\Exception $e) {
             Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
+
             $responseObj['message'] = $e->getMessage();
 
             request()->session()->flash('error', config('messages.SYSTEM_ERROR'));

@@ -78,7 +78,7 @@ class LessonController extends Controller
             $dataItems = [];
             foreach ($dataPost['source'] as $index => $value) {
                 $pathAudio = $fileName = null;
-                if ($request->hasFile('audio') && $request->file('audio')[$index]->isValid()) {
+                if ($request->hasFile('audio') && isset($request->file('audio')[$index]) && $request->file('audio')[$index]->isValid()) {
                     $fileName = time() . '_' . $request->file('audio')[$index]->getClientOriginalName();
                     $pathAudio = $request->audio[$index]->storeAs(config('app.path_audio'), $fileName);
                 }
@@ -103,6 +103,7 @@ class LessonController extends Controller
             DB::rollBack();
 
             Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
             $responseObj['message'] = $e->getMessage();
 
             request()->session()->flash('error', config('messages.SYSTEM_ERROR'));
@@ -211,6 +212,8 @@ class LessonController extends Controller
             DB::rollBack();
 
             Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
+
             $responseObj['message'] = $e->getMessage();
 
             request()->session()->flash('error', config('messages.SYSTEM_ERROR'));
@@ -248,6 +251,8 @@ class LessonController extends Controller
 
         } catch (\Exception $e) {
             Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
+
             $responseObj['message'] = $e->getMessage();
             DB::rollBack();
 
@@ -280,6 +285,8 @@ class LessonController extends Controller
 
         } catch (\Exception $e) {
             Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
+
             $responseObj['message'] = $e->getMessage();
 
             request()->session()->flash('error', config('messages.SYSTEM_ERROR'));

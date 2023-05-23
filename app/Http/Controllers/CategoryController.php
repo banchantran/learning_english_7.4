@@ -91,6 +91,7 @@ class CategoryController extends Controller
 
         } catch (\Exception $e) {
             Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
             DB::rollBack();
 
             request()->session()->flash('error', config('messages.SYSTEM_ERROR'));
@@ -144,6 +145,8 @@ class CategoryController extends Controller
 
         } catch (\Exception $e) {
             Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
+
             $responseObj['message'] = $e->getMessage();
 
             request()->session()->flash('error', config('messages.SYSTEM_ERROR'));

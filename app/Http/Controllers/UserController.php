@@ -86,6 +86,7 @@ class UserController extends Controller
             return redirect()->route('user.getLogin');
         } catch (\Exception $e) {
             Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
 
             request()->session()->flash('error', config('messages.SYSTEM_ERROR'));
         }
