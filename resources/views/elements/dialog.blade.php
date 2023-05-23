@@ -22,10 +22,10 @@
                         <div class="form-group form-lesson root-form">
                             <div class="row root-row">
                                 <div class="col-5">
-                                    <input type="text" placeholder="Text source" name="source[]">
+                                    <input type="text" class="input-text-source" placeholder="Text source" name="source[]">
                                 </div>
                                 <div class="col-5">
-                                    <input type="text" placeholder="Text destination" name="destination[]">
+                                    <input type="text" class="input-text-destination" placeholder="Text destination" name="destination[]">
                                 </div>
                                 <div class="col-2">
                                     <div class="row">
@@ -56,9 +56,17 @@
                         </div>
                     </div>
 
-                    <div class="row justify-content-end">
+                    <div class="row">
+                        <div class="col-10">
+                            <button type="button" class="btn btn-dark mt-2" onclick="$('#fileCsv').click()">Load from file...</button>
+                            <span class="file-name"></span>
+                            <input type="file" accept=".csv" class="hidden" id="fileCsv" onchange="System.loadDataFromFile(this)">
+                        </div>
                         <div class="col-2">
-                            <div class="add-more by-img"><img width="40px" src="{{url('img/add-more.png')}}" alt="add more" onclick="System.addMoreRow(this)">
+                            <div class="row justify-content-end">
+                                <div class="col-12">
+                                    <div class="add-more by-img"><img width="40px" src="{{url('img/add-more.png')}}" alt="add more" onclick="System.addMoreRow(this)"></div>
+                                </div>
                             </div>
                         </div>
                     </div>

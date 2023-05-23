@@ -147,11 +147,13 @@ System.resetModal = function (modalId) {
 
     modal.find('.alert-danger').hide();
     modal.find('.list-errors').empty();
-    modal.find('input[type=text], select').val('');
+    modal.find('input[type=text], select, file').val('');
     modal.find('audio').attr('src', '');
     modal.find('[data-text-default]').each(function (i, item) {
         $(item).html($(item).attr('data-text-default'));
     });
+
+    modal.find('.root-row:not(:first-child)').remove();
 }
 
 System.submitForm = function (e) {
@@ -347,4 +349,45 @@ System.reloadFormLearning = function (e) {
             alert('Oops! hihi ^^');
         }
     })
+}
+
+System.loadDataFromFile = function (e) {
+    let regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv)$/;
+    let form = $(e).closest('form'),
+        rootForm = form.find('.root-form');
+
+    if (regex.test($("#fileCsv").val().toLowerCase())) {
+
+        if (typeof (FileReader) != "undefined") {
+            let reader = new FileReader();
+            reader.onload = function (e) {
+
+                let csvrows = e.target.result.split("\n");
+                let html = '';
+                for (let i = 0; i < csvrows.length; i++) {
+                    if (csvrows[i] != "") {
+                        let csvcols = csvrows[i].split(",");
+
+                        let rootRow = form.find('.root-row:first-child').clone();
+
+                        rootRow.find('input[type="hidden"]').val('');
+                        rootRow.find('input[type="text"]').val('');
+                        rootRow.find('input[type="file"]').val('');
+                        rootRow.find('.file-name').html('Audio');
+                        rootRow.find('audio').attr('src', '');
+
+                        rootRow.find('input.input-text-source').val(csvcols[0]);
+                        rootRow.find('input.input-text-destination').val(csvcols[1]);
+
+                        rootForm.append(rootRow);
+                    }
+                }
+            }
+            reader.readAsText($("#fileCsv")[0].files[0]);
+        } else {
+            alert("Sorry! Your browser does not support HTML5!");
+        }
+    } else {
+        alert("Please upload a valid CSV file!");
+    }
 }
