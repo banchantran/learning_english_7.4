@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CategoryRequest;
 use App\Models\Bookmark;
 use App\Models\Category;
+use App\Models\CompletedLesson;
 use App\Models\Item;
 use App\Models\Lesson;
 use Illuminate\Http\Request;
@@ -73,6 +74,12 @@ class CategoryController extends Controller
             Category::where('id', $id)->update(['del_flag' => 1]);
             Lesson::where('category_id', $id)->update(['del_flag' => 1]);
             Item::where('category_id', $id)->update(['del_flag' => 1]);
+
+            $lessonIds = Lesson::where('category_id', $id)->get()->pluck('id')->toArray();
+            $itemIds = Item::where('category_id', $id)->get()->pluck('id')->toArray();
+
+            Bookmark::whereIn('item_id', $itemIds)->where('user_id', Auth::user()->id)->delete();
+            CompletedLesson::whereIn('lesson_id', $lessonIds)->where('user_id', Auth::user()->id)->delete();
 
             $responseObj['success'] = true;
 

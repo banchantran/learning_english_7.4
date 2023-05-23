@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryRequest;
 use App\Http\Requests\LessonRequest;
+use App\Models\Bookmark;
 use App\Models\Category;
 use App\Models\CompletedLesson;
 use App\Models\Item;
@@ -231,6 +232,10 @@ class LessonController extends Controller
         try {
             Lesson::where('id', $lessonId)->update(['del_flag' => 1]);
             Item::where('lesson_id', $lessonId)->update(['del_flag' => 1]);
+
+            $itemIds = Item::where('lesson_id', $lessonId)->get()->pluck('id')->toArray();
+
+            Bookmark::whereIn('item_id', $itemIds)->where('user_id', Auth::user()->id)->delete();
             CompletedLesson::where('lesson_id', $lessonId)->where('user_id', Auth::user()->id)->delete();
 
             $responseObj['success'] = true;
