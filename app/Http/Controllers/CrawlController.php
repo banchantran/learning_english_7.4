@@ -30,7 +30,12 @@ class CrawlController extends Controller
     {
         $categories = Category::where('del_flag', 0)->where('user_id', Auth::user()->id)->get();
 
-        return view('crawl.index', ['categories' => $categories]);
+        return view('crawl.index', [
+            'categories' => $categories,
+            'crawlCategoryId' => $request->session()->get('crawlCategoryId'),
+            'crawlLessonName' => $request->session()->get('crawlLessonName'),
+            'crawlUrl' => $request->session()->get('crawlUrl'),
+        ]);
     }
 
     public function crawl(Request $request)
@@ -109,6 +114,10 @@ class CrawlController extends Controller
 
             request()->session()->flash('error', config('messages.SYSTEM_ERROR'));
         }
+
+        $request->session()->put('crawlCategoryId', $request->category_id);
+        $request->session()->put('crawlLessonName', $request->lesson);
+        $request->session()->put('crawlUrl', $request->url);
 
         return redirect()->route('crawl.index');
     }

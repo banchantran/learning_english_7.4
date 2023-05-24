@@ -13,17 +13,17 @@
                     <label for="nameLesson">Category</label>
                     <select name="category_id" class="form-select">
                         @foreach($categories as $category)
-                            <option value="{{$category->id}}">{{$category->name}}</option>
+                            <option value="{{$category->id}}" {{!empty($crawlCategoryId) && $category->id == $crawlCategoryId ? 'selected' : ''}}>{{$category->name}}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="form-group mt-3">
                     <label for="">Lesson name</label><br>
-                    <input type="text" class="input-text-source w-100" placeholder="Lesson name" name="lesson">
+                    <input type="text" class="input-text-source w-100" placeholder="Lesson name" value="{{!empty($crawlLessonName) ? $crawlLessonName : '' }}" name="lesson">
                 </div>
                 <div class="form-group mt-3">
                     <label for="">Url</label><br>
-                    <input type="text" id="url_crawl" class="input-text-source w-100" value="{{isset($url) ? $url : ''}}" placeholder="Text source" name="url">
+                    <input type="text" id="url_crawl" class="input-text-source w-100" value="{{!empty($crawlUrl) ? $crawlUrl : '' }}"  placeholder="Text source" name="url">
                 </div>
             </div>
 
