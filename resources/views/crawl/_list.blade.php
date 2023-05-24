@@ -7,7 +7,7 @@
                         <input type="text" class="input-text-source" value="{{$item[0]}}" placeholder="Text source" name="source[]">
                     </div>
                     <div class="col-6">
-                        <input type="text" class="input-text-destination" value="{{$item[7]}}" placeholder="Text destination" name="destination[]">
+                        <input type="text" class="input-text-destination" value="{{isset($item[7]) ? $item[7] : $item[6]}}" placeholder="Text destination" name="destination[]">
                     </div>
                 </div>
             </div>
