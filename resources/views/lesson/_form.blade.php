@@ -31,7 +31,7 @@
 
                             <div class="play-audio hidden">
                                 <audio controls>
-                                    <source src="{{url('/' . $item->audio_path)}}" type="audio/mpeg">
+                                    <source src="{{url($item->audio_path)}}" type="audio/mpeg">
                                     Your browser does not support the audio element.
                                 </audio>
                             </div>

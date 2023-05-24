@@ -351,6 +351,39 @@ System.reloadFormLearning = function (e) {
     })
 }
 
+System.crawl = function(e) {
+    let urlCrawl = $('#url_crawl').val(),
+        urlCall = $(e).attr('data-url'),
+        form = $('.root-form-crawl');
+
+    if ($.trim(urlCrawl) === '') {
+        return;
+    }
+
+    System.showLoading();
+
+    $.ajax({
+        url: urlCall,
+        type: 'get',
+        data: {'urlCrawl': urlCrawl},
+        dataType: 'json',
+        success: function (obj) {
+            if (obj.success) {
+                form.html(obj.data);
+            } else {
+                alert(obj.message);
+            }
+
+            System.hideLoading();
+        },
+        error: function () {
+            System.hideLoading();
+            alert('Oops! hihi ^^');
+        }
+    });
+
+}
+
 System.loadDataFromFile = function (e) {
     let regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv)$/;
     let form = $(e).closest('form'),

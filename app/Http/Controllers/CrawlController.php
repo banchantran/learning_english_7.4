@@ -30,40 +30,86 @@ class CrawlController extends Controller
     {
         $categories = Category::where('del_flag', 0)->where('user_id', Auth::user()->id)->get();
 
-        if ($request->isMethod('post')) {
-            $url = $request->url;
+        return view('crawl.index', ['categories' => $categories]);
+    }
 
-            $htmlContent = file_get_contents($url);
+    public function crawl(Request $request)
+    {
+        $responseObj = ['success' => false, 'data' => [], 'message' => ''];
 
-            $DOM = new \DOMDocument();
-            @$DOM->loadHTML($htmlContent);
 
-            $Header = $DOM->getElementsByTagName('th');
-            $Detail = $DOM->getElementsByTagName('td');
+        $url = $request->urlCrawl;
 
-            //#Get header name of the table
-            foreach ($Header as $NodeHeader) {
-                $aDataTableHeaderHTML[] = trim($NodeHeader->textContent);
-            }
-            //print_r($aDataTableHeaderHTML); die();
+        $htmlContent = file_get_contents($url);
 
-            //#Get row data/detail table without header name as key
-            $i = 0;
-            $j = 0;
-            foreach ($Detail as $sNodeDetail) {
-                $link = $sNodeDetail->getElementsByTagName('a');
-                if (!empty($link->item(0))) {
-                    $aDataTableDetailHTML[$j][] = 'https://jls.vnjpclub.com/' . trim($link->item(0)->getAttribute('href'));
-                }
+        $DOM = new \DOMDocument();
+        @$DOM->loadHTML($htmlContent);
 
-                $aDataTableDetailHTML[$j][] = trim($sNodeDetail->textContent);
-                $i = $i + 1;
-                $j = $i % count($aDataTableHeaderHTML) == 0 ? $j + 1 : $j;
-            }
+        $Header = $DOM->getElementsByTagName('th');
+        $Detail = $DOM->getElementsByTagName('td');
 
-            return view('crawl.index', ['categories' => $categories, 'data' => $aDataTableDetailHTML]);
+        //#Get header name of the table
+        foreach ($Header as $NodeHeader) {
+            $aDataTableHeaderHTML[] = trim($NodeHeader->textContent);
         }
 
-        return view('crawl.index', ['categories' => $categories]);
+        $i = 0;
+        $j = 0;
+        foreach ($Detail as $sNodeDetail) {
+            $link = $sNodeDetail->getElementsByTagName('a');
+            if (!empty($link->item(0))) {
+                $aDataTableDetailHTML[$j][] = 'https://jls.vnjpclub.com/' . trim($link->item(0)->getAttribute('href'));
+            }
+
+            $aDataTableDetailHTML[$j][] = trim($sNodeDetail->textContent);
+            $i = $i + 1;
+            $j = $i % count($aDataTableHeaderHTML) == 0 ? $j + 1 : $j;
+        }
+
+        $responseObj['success'] = true;
+        $responseObj['data'] = view('crawl._list', ['data' => $aDataTableDetailHTML])->render();
+
+
+        return response()->json($responseObj);
+    }
+
+    public function store(Request $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $lessonId = DB::table('lessons')->insertGetId([
+                'category_id' => $request->category_id,
+                'user_id' => Auth::user()->id,
+                'name' => $request->lesson
+            ]);
+
+            foreach ($request->source as $index => $value) {
+
+                Item::create([
+                    'lesson_id' => $lessonId,
+                    'category_id' => $request->category_id,
+                    'text_source' => $request->source[$index],
+                    'text_destination' => $request->destination[$index],
+                    'audio_path' => str_replace('\\', '/', $request->audio_path[$index]),
+                    'audio_name' => basename($request->audio_path[$index]),
+                    'is_crawl' => 1
+                ])->save();
+
+            }
+
+            DB::commit();
+
+            request()->session()->flash('success', config('messages.CREATE_SUCCESS'));
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
+
+            DB::rollBack();
+
+            request()->session()->flash('error', config('messages.SYSTEM_ERROR'));
+        }
+
+        return redirect()->route('crawl.index');
     }
 }

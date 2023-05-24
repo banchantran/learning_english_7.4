@@ -15,7 +15,7 @@ class Item extends Model
      * @var string[]
      */
     protected $fillable = [
-        'id', 'category_id', 'lesson_id', 'text_source', 'text_destination', 'audio_path', 'audio_name', 'del_flag'
+        'id', 'category_id', 'lesson_id', 'text_source', 'text_destination', 'audio_path', 'audio_name', 'del_flag', 'is_crawl'
     ];
 
     /**
