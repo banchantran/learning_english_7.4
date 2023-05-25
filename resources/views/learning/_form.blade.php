@@ -21,6 +21,12 @@
                 <div class="row root-row">
                     <div class="col-11">
                         <div class="row">
+
+                            @if ((isset($category) && $category->language_type == config('constant.LANGUAGE_TYPE_JAPANESE')) || (isset($languageType) && $languageType == config('constant.LANGUAGE_TYPE_JAPANESE')))
+                                <div class="col-2">
+                                    <p class="plain-text">{!! !empty($item['text_note']) ? $item['text_note'] : '&nbsp;' !!}</p>
+                                </div>
+                            @endif
                             <div class="{{(isset($category) && $category->language_type == config('constant.LANGUAGE_TYPE_JAPANESE')) || (isset($languageType) && $languageType == config('constant.LANGUAGE_TYPE_JAPANESE')) ? 'col-5' : 'col-6'}}">
                                 @if ($item['field_to_learn'] == 'display_source')
                                     <input class="input-learning" type="text" placeholder="" name="source[]" value="">
@@ -37,11 +43,6 @@
                                     <p class="plain-text">{{$item['text_destination']}}</p>
                                 @endif
                             </div>
-                            @if ((isset($category) && $category->language_type == config('constant.LANGUAGE_TYPE_JAPANESE')) || (isset($languageType) && $languageType == config('constant.LANGUAGE_TYPE_JAPANESE')))
-                                <div class="col-2">
-                                    <p class="plain-text">{!! !empty($item['text_note']) ? $item['text_note'] : '&nbsp;' !!}</p>
-                                </div>
-                            @endif
                         </div>
                     </div>
                     <div class="col-1 d-flex">
