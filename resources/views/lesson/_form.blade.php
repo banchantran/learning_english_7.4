@@ -15,12 +15,17 @@
             <div class="row root-row">
                 <input type="hidden" name="item_id[]" value="{{$item->id}}">
 
-                <div class="col-5">
+                <div class="{{(isset($category) && $category->language_type == config('constant.LANGUAGE_TYPE_JAPANESE')) || (isset($languageType) && $languageType == config('constant.LANGUAGE_TYPE_JAPANESE')) ? 'col-4' : 'col-5'}}">
                     <input type="text" placeholder="Text source" name="source[]" value="{{$item->text_source}}">
                 </div>
-                <div class="col-5">
+                <div class="{{(isset($category) && $category->language_type == config('constant.LANGUAGE_TYPE_JAPANESE')) || (isset($languageType) && $languageType == config('constant.LANGUAGE_TYPE_JAPANESE')) ? 'col-4' : 'col-5'}}">
                     <input type="text" placeholder="Text destination" name="destination[]" value="{{$item->text_destination}}">
                 </div>
+                @if ((isset($category) && $category->language_type == config('constant.LANGUAGE_TYPE_JAPANESE')) || (isset($languageType) && $languageType == config('constant.LANGUAGE_TYPE_JAPANESE')))
+                    <div class="col-2">
+                        <input type="text" placeholder="Text note" name="note[]" value="{{$item->text_note}}">
+                    </div>
+                @endif
                 <div class="col-2">
                     <div class="row">
                         <div class="upload-audio col-6">
@@ -50,11 +55,14 @@
         @endforeach
     @else
         <div class="row root-row">
-            <div class="col-5">
+            <div class="col-4">
                 <input type="text" placeholder="Text source" name="source[]">
             </div>
-            <div class="col-5">
+            <div class="col-4">
                 <input type="text" placeholder="Text destination" name="destination[]">
+            </div>
+            <div class="col-2">
+                <input type="text" placeholder="Text note" name="note[]">
             </div>
             <div class="col-2">
                 <div class="row">

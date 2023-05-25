@@ -87,7 +87,8 @@ class LessonController extends Controller
                     'category_id' => $categoryId,
                     'lesson_id' => $lesson->id,
                     'text_source' => $value,
-                    'text_destination' => isset($dataPost['destination'][$index]) ? $dataPost['destination'][$index] : '',
+                    'text_destination' => isset($dataPost['destination'][$index]) ? $dataPost['destination'][$index] : null,
+                    'text_note' => isset($dataPost['note'][$index]) ? $dataPost['note'][$index] : null,
                     'audio_path' => Str::replace('public/', 'storage/', $pathAudio),
                     'audio_name' => $fileName,
                 ]);
@@ -170,6 +171,7 @@ class LessonController extends Controller
                     'lesson_id' => $lessonId,
                     'text_source' => isset($dataPost['source'][$index]) ? $dataPost['source'][$index] : '',
                     'text_destination' => isset($dataPost['destination'][$index]) ? $dataPost['destination'][$index] : '',
+                    'text_note' => isset($dataPost['note'][$index]) ? $dataPost['note'][$index] : '',
                     'audio_path' => Str::replace('public/', 'storage/', $pathAudio),
                     'audio_name' => $fileName,
                 ]);
@@ -189,6 +191,7 @@ class LessonController extends Controller
                 $item->del_flag = 0;
                 $item->text_source = isset($dataPost['source'][$index]) ? $dataPost['source'][$index] : '';
                 $item->text_destination = isset($dataPost['destination'][$index]) ? $dataPost['destination'][$index] : '';
+                $item->text_note = isset($dataPost['note'][$index]) ? $dataPost['note'][$index] : '';
 
                 if ($request->hasFile('audio')
                     && isset($request->file('audio')[$index])
@@ -272,6 +275,7 @@ class LessonController extends Controller
 
         try {
             $lesson = Lesson::where('id', $lessonId)->where('del_flag', 0)->first();
+            $category = Category::where('id', $lesson->category_id)->where('del_flag', 0)->first();
             $items = Item::where('lesson_id', $lessonId)->where('del_flag', 0)->get();
 
             if (empty($lesson)) {
@@ -279,7 +283,7 @@ class LessonController extends Controller
             }
 
             $responseObj['success'] = true;
-            $responseObj['data'] = view('lesson._form', ['lesson' => $lesson, 'items' => $items])->render();
+            $responseObj['data'] = view('lesson._form', ['lesson' => $lesson, 'category' => $category, 'items' => $items])->render();
 
             return response()->json($responseObj);
 

@@ -21,12 +21,24 @@
                         <hr>
                         <div class="form-group form-lesson root-form">
                             <div class="row root-row">
-                                <div class="col-5">
-                                    <input type="text" class="input-text-source" placeholder="Text source" name="source[]">
-                                </div>
-                                <div class="col-5">
-                                    <input type="text" class="input-text-destination" placeholder="Text destination" name="destination[]">
-                                </div>
+                                @if (isset($category) && $category->language_type == config('constant.LANGUAGE_TYPE_JAPANESE'))
+                                    <div class="col-4">
+                                        <input type="text" class="input-text-source" placeholder="Text source" name="source[]">
+                                    </div>
+                                    <div class="col-4">
+                                        <input type="text" class="input-text-destination" placeholder="Text destination" name="destination[]">
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="text" class="input-text-note" placeholder="Text note" name="note[]">
+                                    </div>
+                                @else
+                                    <div class="col-5">
+                                        <input type="text" class="input-text-source" placeholder="Text source" name="source[]">
+                                    </div>
+                                    <div class="col-5">
+                                        <input type="text" class="input-text-destination" placeholder="Text destination" name="destination[]">
+                                    </div>
+                                @endif
                                 <div class="col-2">
                                     <div class="row">
                                         <div class="upload-audio col-6">

@@ -79,7 +79,7 @@ class PracticeController extends Controller
         $rangeTime = request()->input('rangeTime', config('constant.PRACTICE_3_RECENTLY'));
         $perPage = request()->input('perPage', config('constant.PER_PAGE'));
 
-        $bookmarkItemIds = Bookmark::select(['item_id'])->get()->pluck('item_id')->toArray();
+        $bookmarkItemIds = Bookmark::select(['item_id'])->where('user_id', Auth::user()->id)->get()->pluck('item_id')->toArray();
 
         switch (true) {
             case $rangeTime == config('constant.PRACTICE_ALL'):
@@ -197,5 +197,6 @@ class PracticeController extends Controller
         view()->share('totalItems', count($allItems));
         view()->share('totalLessons', count($lessonIds));
         view()->share('bookmarkItemIds', $bookmarkItemIds);
+        view()->share('languageType', $languageType[$language]);
     }
 }

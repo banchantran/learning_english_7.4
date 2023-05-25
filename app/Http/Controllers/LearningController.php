@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bookmark;
+use App\Models\Category;
 use App\Models\CompletedLesson;
 use App\Models\Item;
 use App\Models\Lesson;
@@ -49,7 +50,10 @@ class LearningController extends Controller
 
         $items = $this->randomActive($lesson->items->toArray());
 
+        $category = Category::where('id', $lesson->category_id)->where('del_flag', 0)->first();
+
         return view('learning.show', [
+            'category' => $category,
             'lesson' => $lesson,
             'items' => $items,
             'wasCompleted' => $wasCompleted,
