@@ -3,11 +3,14 @@
         <div class="row root-row">
             <div class="col-10">
                 <div class="row">
-                    <div class="col-6">
+                    <div class="col-5">
                         <input type="text" class="input-text-source" value="{{$item[0]}}" placeholder="Text source" name="source[]">
                     </div>
-                    <div class="col-6">
+                    <div class="col-5">
                         <input type="text" class="input-text-destination" value="{{isset($item[7]) ? $item[7] : $item[6]}}" placeholder="Text destination" name="destination[]">
+                    </div>
+                    <div class="col-2">
+                        <input type="text" class="input-text-note" value="{{isset($item[5]) ? $item[5] : ''}}" placeholder="Text note" name="note[]">
                     </div>
                 </div>
             </div>

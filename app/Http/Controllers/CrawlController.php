@@ -22,7 +22,7 @@ class CrawlController extends Controller
      */
     public function __construct()
     {
-        View::share('activeNav', 'category');
+        View::share('activeNav', '');
     }
 
 
@@ -94,8 +94,9 @@ class CrawlController extends Controller
                 Item::create([
                     'lesson_id' => $lessonId,
                     'category_id' => $request->category_id,
-                    'text_source' => $request->source[$index],
-                    'text_destination' => $request->destination[$index],
+                    'text_source' => !empty($request->source[$index]) ? $request->source[$index] : '',
+                    'text_destination' => !empty($request->destination[$index]) ? $request->destination[$index] : '',
+                    'text_note' => $request->note[$index],
                     'audio_path' => str_replace('\\', '/', $request->audio_path[$index]),
                     'audio_name' => basename($request->audio_path[$index]),
                     'is_crawl' => 1
