@@ -119,6 +119,7 @@ class LearningController extends Controller
 
         try {
             $lesson = Lesson::with(['items'])->where('id', $lessonId)->first();
+            $category = Category::where('id', $lesson->category_id)->first();
             $bookmarkItemIds = Bookmark::select(['item_id'])->get()->pluck('item_id')->toArray();
 
             $items = $this->randomActive($lesson->items->toArray(), $displayType);
@@ -127,6 +128,7 @@ class LearningController extends Controller
             $responseObj['data'] = view($displayType == 'learn_listening' ? 'learning._form_listening' : 'learning._form', [
                 'lesson' => $lesson,
                 'items' => $items,
+                'category' => $category,
                 'totalItems' => count($items),
                 'bookmarkItemIds' => $bookmarkItemIds,
             ])->render();
