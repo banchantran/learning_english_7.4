@@ -1,5 +1,5 @@
 <!-- Modal create lesson -->
-<div class="modal fade in" id="createLesson" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+<div class="modal fade in" id="createLesson" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-backdrop="static">
 
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -94,7 +94,7 @@
     </div>
 </div>
 
-<div class="modal fade in" id="editLesson" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+<div class="modal fade in" id="editLesson" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-backdrop="static">
 
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -133,7 +133,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade in" id="createCategory" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+<div class="modal fade in" id="createCategory" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-backdrop="static">
 
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -183,7 +183,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade in" id="deleteConfirm" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+<div class="modal fade in" id="deleteConfirm" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">

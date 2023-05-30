@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bookmark;
+use App\Models\Category;
 use App\Models\CompletedLesson;
 use App\Models\Item;
 use App\Models\Lesson;
@@ -35,9 +36,16 @@ class PracticeController extends Controller
 
         $request->session()->put('language', $language);
 
+        $allCategories = Category::where('del_flag', 0)
+            ->where('language_type', config('config.language_type_text')[$language])
+            ->where(function($query) {
+                return $query->orWhere('user_id', Auth::user()->id)->orWhere('is_public', 1);
+            })
+            ->get();
+
         $this->_getData($language);
 
-        return view('practice.show');
+        return view('practice.show', ['allCategories' => $allCategories]);
     }
 
     public function reload()
@@ -78,6 +86,7 @@ class PracticeController extends Controller
         $displayType = request()->input('displayType', 'random');
         $rangeTime = request()->input('rangeTime', config('constant.PRACTICE_3_RECENTLY'));
         $perPage = request()->input('perPage', config('constant.PER_PAGE'));
+        $categoryId = request()->input('categoryId', 0);
 
         $bookmarkItemIds = Bookmark::select(['item_id'])->where('user_id', Auth::user()->id)->get()->pluck('item_id')->toArray();
 
@@ -86,6 +95,9 @@ class PracticeController extends Controller
                 $lessonIds = DB::table('completed_lessons')
                     ->join('lessons', 'completed_lessons.lesson_id', '=', 'lessons.id')
                     ->join('categories', 'lessons.category_id', '=', 'categories.id')
+                    ->when($categoryId != 0, function($query) use ($categoryId) {
+                        return $query->where('categories.id', $categoryId);
+                    })
                     ->where('categories.language_type', $languageType[$language])
                     ->where('completed_lessons.user_id', Auth::user()->id)
                     ->get()->pluck('lesson_id')->toArray();
@@ -97,6 +109,9 @@ class PracticeController extends Controller
                 $lessonIds = DB::table('completed_lessons')
                     ->join('lessons', 'completed_lessons.lesson_id', '=', 'lessons.id')
                     ->join('categories', 'lessons.category_id', '=', 'categories.id')
+                    ->when($categoryId != 0, function($query) use ($categoryId) {
+                        return $query->where('categories.id', $categoryId);
+                    })
                     ->where('categories.language_type', $languageType[$language])
                     ->where('completed_lessons.user_id', Auth::user()->id)
                     ->where('completed_lessons.finished_date', '>=', $fromDate)
@@ -111,6 +126,9 @@ class PracticeController extends Controller
                 $lessonIds = DB::table('completed_lessons')
                     ->join('lessons', 'completed_lessons.lesson_id', '=', 'lessons.id')
                     ->join('categories', 'lessons.category_id', '=', 'categories.id')
+                    ->when($categoryId != 0, function($query) use ($categoryId) {
+                        return $query->where('categories.id', $categoryId);
+                    })
                     ->where('categories.language_type', $languageType[$language])
                     ->where('completed_lessons.user_id', Auth::user()->id)
                     ->where('completed_lessons.finished_date', '>=', $fromDate)
@@ -125,6 +143,9 @@ class PracticeController extends Controller
                 $lessonIds = DB::table('completed_lessons')
                     ->join('lessons', 'completed_lessons.lesson_id', '=', 'lessons.id')
                     ->join('categories', 'lessons.category_id', '=', 'categories.id')
+                    ->when($categoryId != 0, function($query) use ($categoryId) {
+                        return $query->where('categories.id', $categoryId);
+                    })
                     ->where('categories.language_type', $languageType[$language])
                     ->where('completed_lessons.user_id', Auth::user()->id)
                     ->where('completed_lessons.finished_date', '>=', $fromDate)
@@ -139,6 +160,9 @@ class PracticeController extends Controller
                 $lessonIds = DB::table('completed_lessons')
                     ->join('lessons', 'completed_lessons.lesson_id', '=', 'lessons.id')
                     ->join('categories', 'lessons.category_id', '=', 'categories.id')
+                    ->when($categoryId != 0, function($query) use ($categoryId) {
+                        return $query->where('categories.id', $categoryId);
+                    })
                     ->where('categories.language_type', $languageType[$language])
                     ->where('completed_lessons.user_id', Auth::user()->id)
                     ->where('completed_lessons.finished_date', '>=', $fromDate)
@@ -150,6 +174,9 @@ class PracticeController extends Controller
                 $lessonIds = DB::table('completed_lessons')
                     ->join('lessons', 'completed_lessons.lesson_id', '=', 'lessons.id')
                     ->join('categories', 'lessons.category_id', '=', 'categories.id')
+                    ->when($categoryId != 0, function($query) use ($categoryId) {
+                        return $query->where('categories.id', $categoryId);
+                    })
                     ->where('categories.language_type', $languageType[$language])
                     ->where('completed_lessons.user_id', Auth::user()->id)
                     ->orderBy('completed_lessons.finished_date', 'desc')
@@ -161,6 +188,9 @@ class PracticeController extends Controller
                 $lessonIds = DB::table('completed_lessons')
                     ->join('lessons', 'completed_lessons.lesson_id', '=', 'lessons.id')
                     ->join('categories', 'lessons.category_id', '=', 'categories.id')
+                    ->when($categoryId != 0, function($query) use ($categoryId) {
+                        return $query->where('categories.id', $categoryId);
+                    })
                     ->where('categories.language_type', $languageType[$language])
                     ->where('completed_lessons.user_id', Auth::user()->id)
                     ->orderBy('completed_lessons.finished_date', 'desc')
@@ -172,6 +202,9 @@ class PracticeController extends Controller
                 $lessonIds = DB::table('completed_lessons')
                     ->join('lessons', 'completed_lessons.lesson_id', '=', 'lessons.id')
                     ->join('categories', 'lessons.category_id', '=', 'categories.id')
+                    ->when($categoryId != 0, function($query) use ($categoryId) {
+                        return $query->where('categories.id', $categoryId);
+                    })
                     ->where('categories.language_type', $languageType[$language])
                     ->where('completed_lessons.user_id', Auth::user()->id)
                     ->orderBy('completed_lessons.finished_date', 'desc')

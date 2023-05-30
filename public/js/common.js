@@ -326,6 +326,7 @@ System.reloadFormLearning = function (e) {
         formLearning = $('.form-learning'),
         perPage = $('select.per-page').val(),
         rangeTime = $('select.range-time').val(),
+        categoryId = $('select.list-categories').val(),
         displayType = $('select.display-type').val();
 
     System.showLoading();
@@ -335,7 +336,7 @@ System.reloadFormLearning = function (e) {
     $.ajax({
         url: url,
         type: 'get',
-        data: {'displayType': displayType, 'perPage': perPage, 'rangeTime': rangeTime},
+        data: {'displayType': displayType, 'perPage': perPage, 'rangeTime': rangeTime, 'categoryId' : categoryId},
         dataType: 'json',
         success: function (obj) {
             if (obj.success) {

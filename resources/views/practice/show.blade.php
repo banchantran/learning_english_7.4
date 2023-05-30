@@ -25,12 +25,22 @@
 
         <div class="group-actions mb20">
             <div class="row">
-                <div class="col-8">
+                <div class="col-12">
+                    <select class="form-select list-categories d-inline-block" name="range_type" aria-label="Default select" onchange="$('.btn-reload').click()">
+                        <option value="0" selected>All categories</option>
+                        @foreach($allCategories as $category)
+                            <option value="{{$category->id}}">{{$category->name}}</option>
+                        @endforeach
+                    </select>
                     <select class="form-select range-time d-inline-block" name="range_type" aria-label="Default select" onchange="$('.btn-reload').click()">
                         @foreach(config('config.range_practice') as $value => $option)
                             <option value="{{$value}}" {{$value == config('constant.PRACTICE_3_RECENTLY') ? 'selected' : ''}}>{{$option}}</option>
                         @endforeach
                     </select>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-8">
                     <select class="form-select display-type d-inline-block" name="show_type" aria-label="Default select" onchange="$('.btn-reload').click()">
                         @foreach(config('config.learning_type') as $value => $text)
                             <option value="{{$value}}">{{$text}}</option>
@@ -44,13 +54,10 @@
                         </p>
                     </button>
 
-                    <button type="button"
-                            class="btn btn-outline-success btn-reload"
-                            data-url="{{url(route('practice.reload'))}}"
-                            onclick="System.reloadFormLearning(this)">
+                    <button type="button" class="btn btn-outline-success" onclick="System.checkResult()">
                         <p class="d-flex align-items-center">
-                            <img src="{{url('img/reload.png')}}" alt="reload" width="15px" class="mr-10">
-                            <span>Reload</span>
+                            <img src="{{url('img/signal.png')}}" alt="reload" width="15px" class="mr-10">
+                            <span>Check result</span>
                         </p>
                     </button>
                 </div>
@@ -62,13 +69,16 @@
                                 <option value="{{$key}}" {{$key == config('constant.PER_PAGE') ? 'selected' : ''}}>{{$value}}</option>
                             @endforeach
                         </select>
-                        <button type="button" class="btn btn-outline-success" onclick="System.checkResult()">
+
+                        <button type="button"
+                                class="btn btn-outline-success btn-reload"
+                                data-url="{{url(route('practice.reload'))}}"
+                                onclick="System.reloadFormLearning(this)">
                             <p class="d-flex align-items-center">
-                                <img src="{{url('img/signal.png')}}" alt="reload" width="15px" class="mr-10">
-                                <span>Check result</span>
+                                <img src="{{url('img/reload.png')}}" alt="reload" width="15px" class="mr-10">
+                                <span>Reload</span>
                             </p>
                         </button>
-
                     </div>
                 </div>
                 <div class="col-12">
