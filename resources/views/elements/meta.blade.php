@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="{{url('css/bootstrap-grid.css.map')}}">
 
 <link href="{{url('css/common.css?v=' . time())}}" rel="stylesheet">
-<link href="{{url('css/custom.css?v=' . time())}})}}" rel="stylesheet" type="text/css">
+<link href="{{url('css/custom.css?v=' . time())}}" rel="stylesheet" type="text/css">
 
 {{--<meta name="csrf-token" content="{{ csrf_token() }}">--}}
 
