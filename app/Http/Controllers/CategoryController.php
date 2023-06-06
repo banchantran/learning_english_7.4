@@ -32,7 +32,7 @@ class CategoryController extends Controller
             $data = Category::with(['user'])
                 ->where('del_flag', 0)
                 ->where('user_id', Auth::user()->id)
-                ->orderBy('id');
+                ->orderBy('language_type, name');
 
             if (Auth::user()->display_all_categories_flag === config('constant.DISPLAY_ALL_CATEGORIES')) {
                 $publicCategories = Category::with(['user'])
@@ -40,7 +40,7 @@ class CategoryController extends Controller
                     ->where('user_id', '!=', Auth::user()->id)
                     ->where('is_public', 1)
                     ->where('del_flag', 0)
-                    ->orderBy('id');
+                    ->orderBy('language_type, name');
 
                 $data = $data->union($publicCategories);
             }
