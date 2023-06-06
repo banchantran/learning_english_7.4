@@ -44,6 +44,9 @@ Route::middleware('auth')->group(function() {
         Route::get('/', [\App\Http\Controllers\CrawlController::class, 'index'])->name('index');
         Route::get('/crawl', [\App\Http\Controllers\CrawlController::class, 'crawl'])->name('run');
         Route::post('/store', [\App\Http\Controllers\CrawlController::class, 'store'])->name('store');
+
+        Route::get('/kanji', [\App\Http\Controllers\CrawlController::class, 'kanji'])->name('kanji');
+        Route::get('/crawlKanji', [\App\Http\Controllers\CrawlController::class, 'crawlKanji'])->name('run.kanji');
     });
 });
 

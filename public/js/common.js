@@ -355,6 +355,8 @@ System.reloadFormLearning = function (e) {
 System.crawl = function(e) {
     let urlCrawl = $('#url_crawl').val(),
         urlCall = $(e).attr('data-url'),
+        fromPosition = $('#from_position').val(),
+        toPosition = $('#to_position').val(),
         form = $('.root-form-crawl');
 
     if ($.trim(urlCrawl) === '') {
@@ -366,7 +368,7 @@ System.crawl = function(e) {
     $.ajax({
         url: urlCall,
         type: 'get',
-        data: {'urlCrawl': urlCrawl},
+        data: {'urlCrawl': urlCrawl, fromPosition: fromPosition, toPosition: toPosition},
         dataType: 'json',
         success: function (obj) {
             if (obj.success) {

@@ -25,7 +25,6 @@ class CrawlController extends Controller
         View::share('activeNav', '');
     }
 
-
     public function index(Request $request)
     {
         $categories = Category::where('del_flag', 0)->where('user_id', Auth::user()->id)->get();
@@ -36,6 +35,52 @@ class CrawlController extends Controller
             'crawlLessonName' => $request->session()->get('crawlLessonName'),
             'crawlUrl' => $request->session()->get('crawlUrl'),
         ]);
+    }
+
+    public function kanji(Request $request)
+    {
+        $categories = Category::where('del_flag', 0)->where('user_id', Auth::user()->id)->get();
+
+        return view('crawl.kanji', [
+            'categories' => $categories,
+            'crawlCategoryId' => $request->session()->get('crawlCategoryId'),
+            'crawlLessonName' => $request->session()->get('crawlLessonName'),
+            'crawlUrl' => $request->session()->get('crawlUrl'),
+        ]);
+    }
+
+    public function crawlKanji(Request $request)
+    {
+        $responseObj = ['success' => false, 'data' => [], 'message' => ''];
+
+        $url = $request->urlCrawl;
+        $fromPosition = $request->fromPosition;
+        $toPosition = $request->toPosition;
+
+        $htmlContent = file_get_contents($url);
+
+        $DOM = new \DOMDocument();
+        @$DOM->loadHTML($htmlContent);
+
+        $Detail = $DOM->getElementsByTagName('td');
+
+        $i = 0;
+        $j = 0;
+        foreach ($Detail as $sNodeDetail) {
+            $aDataTableDetailHTML[$j][] = trim($sNodeDetail->textContent);
+            $i = $i + 1;
+            $j = $i % 6 == 0 ? $j + 1 : $j;
+        }
+
+        unset($aDataTableDetailHTML[0]);
+
+        $aDataTableDetailHTML = array_slice($aDataTableDetailHTML, $fromPosition, $toPosition);
+
+        $responseObj['success'] = true;
+        $responseObj['data'] = view('crawl._list_kanji', ['data' => $aDataTableDetailHTML])->render();
+
+
+        return response()->json($responseObj);
     }
 
     public function crawl(Request $request)
@@ -120,6 +165,6 @@ class CrawlController extends Controller
         $request->session()->put('crawlLessonName', $request->lesson);
         $request->session()->put('crawlUrl', $request->url);
 
-        return redirect()->route('crawl.index');
+        return redirect()->route('crawl.kanji');
     }
 }
