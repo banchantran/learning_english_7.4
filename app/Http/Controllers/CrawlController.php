@@ -177,8 +177,8 @@ class CrawlController extends Controller
         $request->session()->put('crawlCategoryId', $request->category_id);
         $request->session()->put('crawlLessonName', $request->lesson);
         $request->session()->put('crawlUrl', $request->url);
-        $request->session()->put('fromPosition', $request->fromPosition);
-        $request->session()->put('toPosition', $request->toPosition);
+        $request->session()->put('fromPosition', $request->from_position);
+        $request->session()->put('toPosition', $request->to_position);
 
         return redirect()->route('crawl.kanji');
     }
