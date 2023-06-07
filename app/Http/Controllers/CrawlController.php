@@ -67,7 +67,7 @@ class CrawlController extends Controller
         $i = 0;
         $j = 0;
         foreach ($Detail as $sNodeDetail) {
-            $aDataTableDetailHTML[$j][] = trim($sNodeDetail->textContent);
+            $aDataTableDetailHTML[$j][] = explode("  ", trim($sNodeDetail->textContent));
             $i = $i + 1;
             $j = $i % 6 == 0 ? $j + 1 : $j;
         }
@@ -76,8 +76,17 @@ class CrawlController extends Controller
 
         $aDataTableDetailHTML = array_slice($aDataTableDetailHTML, $fromPosition, $toPosition);
 
+        $result = [];
+        foreach ($aDataTableDetailHTML as $index => $item) {
+            $result = array_merge($result, $aDataTableDetailHTML[$index][5]);
+        }
+
+        foreach ($result as $index => $value) {
+            $result[$index] = preg_split('/：|:|（/', trim($value));
+        }
+
         $responseObj['success'] = true;
-        $responseObj['data'] = view('crawl._list_kanji', ['data' => $aDataTableDetailHTML])->render();
+        $responseObj['data'] = view('crawl._list_kanji', ['data' => $result])->render();
 
 
         return response()->json($responseObj);
