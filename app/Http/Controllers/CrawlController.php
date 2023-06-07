@@ -34,6 +34,8 @@ class CrawlController extends Controller
             'crawlCategoryId' => $request->session()->get('crawlCategoryId'),
             'crawlLessonName' => $request->session()->get('crawlLessonName'),
             'crawlUrl' => $request->session()->get('crawlUrl'),
+            'fromPosition' => $request->session()->get('fromPosition'),
+            'toPosition' => $request->session()->get('toPosition'),
         ]);
     }
 
@@ -46,6 +48,8 @@ class CrawlController extends Controller
             'crawlCategoryId' => $request->session()->get('crawlCategoryId'),
             'crawlLessonName' => $request->session()->get('crawlLessonName'),
             'crawlUrl' => $request->session()->get('crawlUrl'),
+            'fromPosition' => $request->session()->get('fromPosition'),
+            'toPosition' => $request->session()->get('toPosition'),
         ]);
     }
 
@@ -173,6 +177,8 @@ class CrawlController extends Controller
         $request->session()->put('crawlCategoryId', $request->category_id);
         $request->session()->put('crawlLessonName', $request->lesson);
         $request->session()->put('crawlUrl', $request->url);
+        $request->session()->put('fromPosition', $request->url);
+        $request->session()->put('toPosition', $request->url);
 
         return redirect()->route('crawl.kanji');
     }

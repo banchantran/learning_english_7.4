@@ -27,11 +27,11 @@
                 </div>
                 <div class="form-group mt-3">
                     <label for="">From position</label><br>
-                    <input type="text" id="from_position" class="input-text-source w-100" value=""  placeholder="From position" name="from">
+                    <input type="text" id="from_position" class="input-text-source w-100" value="{{!empty($fromPosition) ? $fromPosition : '' }}"  placeholder="From position" name="from">
                 </div>
                 <div class="form-group mt-3">
                     <label for="">To position</label><br>
-                    <input type="text" id="to_position" class="input-text-source w-100" value=""  placeholder="To position" name="to">
+                    <input type="text" id="to_position" class="input-text-source w-100" value="{{!empty($toPosition) ? $toPosition : '' }}"  placeholder="To position" name="to">
                 </div>
             </div>
 
