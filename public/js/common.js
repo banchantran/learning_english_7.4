@@ -239,7 +239,7 @@ System.checkResult = function () {
     formLearning.find('input.input-learning').each(function (i, item) {
         let correctAnswer = $(item).next('.text-suggest').html();
 
-        if ($(item).val().toLowerCase() === correctAnswer.toLowerCase()) {
+        if ($.trim($(item).val().toLowerCase()) === $.trim(correctAnswer.toLowerCase())) {
             totalCorrectAnswer++;
             $(item).removeClass('highlight');
         } else {
