@@ -38,7 +38,7 @@
                     <div class="row result-item">
                         <div class="col-5 highlight-result">
                             <div class="learning-text">
-                                <p class="text-source">{{$item->text_source}}</p>
+                                <p class="text-source">{{$item->text_source}} {{!empty($item->text_note) ? ' - ' . $item->text_note : ''}}</p>
                                 <p class="text-destination">{{$item->text_destination}}</p>
                             </div>
                         </div>
