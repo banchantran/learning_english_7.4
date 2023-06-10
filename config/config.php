@@ -25,6 +25,8 @@ return [
         '20' => '20 items',
         '30' => '30 items',
         '40' => '40 items',
+        '100' => '100 items',
+        '0' => 'All items',
     ],
 
     'language_type' => [

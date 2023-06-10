@@ -53,7 +53,9 @@ class Controller extends BaseController
 
         shuffle($items);
 
-        $items = array_slice($items, 0, $maxItem);
+        if ($maxItem != 0) {
+            $items = array_slice($items, 0, $maxItem);
+        }
 
         return $items;
     }
