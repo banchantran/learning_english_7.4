@@ -45,6 +45,7 @@ class SearchController extends Controller
             ->Where(function ($query) use ($keyword) {
                 $query->where('items.text_source', 'like', '%' . $keyword . '%')
                     ->orWhere('items.text_destination', 'like', '%' . $keyword . '%')
+                    ->orWhere('items.text_note', 'like', '%' . $keyword . '%')
                     ->orWhere('lessons.name', 'like', '%' . $keyword . '%')
                     ->orWhere('categories.name', 'like', '%' . $keyword . '%');
             })
