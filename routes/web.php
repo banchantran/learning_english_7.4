@@ -61,6 +61,7 @@ Route::prefix('category/{categoryId}/lesson')->name('lesson.')->group(function()
     Route::get('/', [\App\Http\Controllers\LessonController::class, 'index'])->name('index');
     Route::post('/store', [\App\Http\Controllers\LessonController::class, 'store'])->name('store');
     Route::post('/update', [\App\Http\Controllers\LessonController::class, 'update'])->name('update');
+    Route::post('/generateAudio', [\App\Http\Controllers\LessonController::class, 'generateAudio'])->name('generate_audio');
     Route::get('/show/{lessonId}', [\App\Http\Controllers\LessonController::class, 'show'])->name('show');
     Route::get('/delete/{lessonId}', [\App\Http\Controllers\LessonController::class, 'delete'])->name('delete');
 });

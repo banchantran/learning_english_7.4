@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'IS_ADMIN' => 1,
+
     'PRACTICE_ALL' => 0,
     'PRACTICE_THIS_WEEK' => 1,
     'PRACTICE_THIS_MONTH' => 2,

@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\CompletedLesson;
 use App\Models\Item;
 use App\Models\Lesson;
+use App\Services\TextSpeechService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,14 +19,18 @@ use Illuminate\Support\Str;
 
 class LessonController extends Controller
 {
+    public $textSpeechService;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(TextSpeechService $textSpeechService)
     {
         View::share('activeNav', 'category');
+
+        $this->textSpeechService = $textSpeechService;
     }
 
     public function index($categoryId)
@@ -55,6 +60,51 @@ class LessonController extends Controller
             'lessons' => $lessons,
             'category' => $category,
             'completedLessons' => $completedLessons]);
+    }
+
+    public function generateAudio($categoryId, Request $request)
+    {
+        $responseObj = ['success' => false, 'data' => [], 'message' => ''];
+
+        $lessonId = $request->input('id');
+
+        $category = Category::find($categoryId)->toArray();
+        $items = Item::where('lesson_id', $lessonId)
+            ->where('del_flag', 0)
+            ->get()
+            ->toArray();
+
+        if (empty($items)) {
+            return response()->json($responseObj);
+        }
+
+        try {
+            foreach ($items as $item) {
+                if (empty($item['text_source'])) {
+                    continue;
+                }
+
+                $ttsAudio = $this->textSpeechService->saveAudio($item['text_source'], $categoryId, $lessonId, $category['language_type']);
+
+                if (empty($ttsAudio)) continue;
+
+                Item::where('id', $item['id'])->update(['audio_name' => $ttsAudio['fileName'], 'audio_path' => $ttsAudio['filePath']]);
+            }
+
+            $responseObj['success'] = true;
+
+            request()->session()->flash('success', config('messages.UPDATE_SUCCESS'));
+
+            return response()->json($responseObj);
+
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
+
+            $responseObj['message'] = $e->getMessage();
+        }
+
+        return response()->json($responseObj);
     }
 
     public function store($categoryId, LessonRequest $request)

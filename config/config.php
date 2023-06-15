@@ -35,6 +35,12 @@ return [
         '3' => 'Chinese',
     ],
 
+    'voice_type' => [
+        '1' => 'en-US3', // english
+        '2' => 'ja-JP', // japanese
+        '3' => 'zh-CN3', // chinese
+    ],
+
     'language_type_text' => [
         'english' => 1,
         'japanese' => 2,

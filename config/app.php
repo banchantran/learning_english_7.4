@@ -58,6 +58,8 @@ return [
 
     'path_audio' => env('PATH_AUDIO', 'audios'),
 
+    'ttsfree_api_key' => env('TTSFREE_API_KEY', ''),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

@@ -156,6 +156,33 @@ System.resetModal = function (modalId) {
     modal.find('.root-row:not(:first-child)').remove();
 }
 
+System.generateAudio = function(e) {
+    let form = $(e).closest('form'),
+        url = $(e).attr('data-action'),
+        formData = new FormData(form[0]);
+
+    System.showLoading();
+
+    $.ajax({
+        url: url,
+        type: 'post',
+        dataType: 'json',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function (obj) {
+            if (obj.success === true) {
+                window.location.reload();
+            }
+        },
+        error: function (obj) {
+            let response = JSON.parse(obj.responseText);
+            System.showErrors(form, response.errors);
+            System.hideLoading();
+        }
+    });
+}
+
 System.submitForm = function (e) {
     let form = $(e).closest('form'),
         url = form.attr('action'),

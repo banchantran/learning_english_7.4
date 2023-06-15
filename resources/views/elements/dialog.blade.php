@@ -1,5 +1,5 @@
 <!-- Modal create lesson -->
-<div class="modal fade in" id="createLesson" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-backdrop="static">
+<div class="modal fade in" id="createLesson" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-backdrop="static">
 
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -94,7 +94,7 @@
     </div>
 </div>
 
-<div class="modal fade in" id="editLesson" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-backdrop="static">
+<div class="modal fade in" id="editLesson" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-backdrop="static">
 
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -121,6 +121,12 @@
                     </div>
                 </div>
                 <div class="modal-footer">
+                    @if (\Illuminate\Support\Facades\Auth::user()->role == config('constant.IS_ADMIN'))
+                        <button type="button" class="btn btn-info"
+                                data-dismiss="modal" style="color: #fff"
+                                data-action="{{url(route('lesson.generate_audio', ['categoryId' => isset($category) ? $category->id : 0]))}}"
+                                onclick="System.generateAudio(this)">Generate audio</button>
+                    @endif
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-red" data-url="" onclick="System.submitForm(this)">
                         Save
@@ -133,7 +139,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade in" id="createCategory" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true"  data-backdrop="static">
+<div class="modal fade in" id="createCategory" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-backdrop="static">
 
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
