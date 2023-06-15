@@ -188,7 +188,9 @@ h3.category-title small {
 .upload-audio span {
     display: block;
     width: 100%;
-    word-wrap: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .upload-audio:hover {border-color: cadetblue;}
