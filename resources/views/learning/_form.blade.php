@@ -42,7 +42,7 @@
                             <div
                                 class="{{(isset($category) && $category->language_type == config('constant.LANGUAGE_TYPE_JAPANESE')) || (isset($languageType) && $languageType == config('constant.LANGUAGE_TYPE_JAPANESE')) ? 'col-5' : 'col-6'}}">
                                 @if ($item['field_to_learn'] == 'display_source')
-                                    <input class="input-learning" type="text" placeholder="" name="source[]" value="" onclick="System.autoPlayAudio(this)">
+                                    <input class="input-learning" type="text" placeholder="" name="source[]" value="" onfocusin="System.autoPlayAudio(this)">
                                     <p class="text-suggest">{{$item['text_source']}}</p>
                                 @else
                                     <p class="plain-text">{{$item['text_source']}}</p>
@@ -51,7 +51,7 @@
                             <div
                                 class="{{(isset($category) && $category->language_type == config('constant.LANGUAGE_TYPE_JAPANESE')) || (isset($languageType) && $languageType == config('constant.LANGUAGE_TYPE_JAPANESE')) ? 'col-5' : 'col-6'}}">
                                 @if ($item['field_to_learn'] == 'display_destination')
-                                    <input class="input-learning" type="text" placeholder="" name="destination[]" value="" onclick="System.autoPlayAudio(this)">
+                                    <input class="input-learning" type="text" placeholder="" name="destination[]" value="" onfocusin="System.autoPlayAudio(this)">
                                     <p class="text-suggest">{{$item['text_destination']}}</p>
                                 @else
                                     <p class="plain-text">{{$item['text_destination']}}</p>
