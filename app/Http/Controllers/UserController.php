@@ -100,4 +100,11 @@ class UserController extends Controller
 
         return redirect()->route('home');
     }
+
+    public function updateAutoPlayFlag(Request $request)
+    {
+        User::where('id', Auth::user()->id)->update(['auto_play_flag' => $request->auto_play_flag]);
+
+        return redirect()->back();
+    }
 }

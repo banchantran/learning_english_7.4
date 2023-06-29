@@ -52,6 +52,12 @@
                             <p>{{$item->username}}</p>
                         </div>
                         <div class="col-1 text-end">
+                            <div class="play-audio hidden">
+                                <audio controls>
+                                    <source src="{{!empty($item->audio_path) ? url($item->audio_path) : ''}}" type="audio/mpeg">
+                                    Your browser does not support the audio element.
+                                </audio>
+                            </div>
                             <img class="play-icon mr-10 {{!empty($item->audio_path) ? '' : 'no-file'}}" width="20px"
                                  src="{{url('img/play.png')}}" alt="audio"
                                  onclick="System.playAudio(this)">

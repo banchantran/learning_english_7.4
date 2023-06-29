@@ -47,6 +47,16 @@ System.playAudio = function (e) {
     fileAudio[0].play();
 }
 
+System.autoPlayAudio = function (e) {
+    let autoPlayFlag = $('input[name=auto_play_flag]');
+
+    if (autoPlayFlag.length == 0 || autoPlayFlag.prop('checked') == false) {
+        return;
+    }
+
+    System.playAudio(e);
+}
+
 System.addMoreRow = function (e) {
     let form = $(e).closest('form'),
         rootForm = form.find('.root-form'),

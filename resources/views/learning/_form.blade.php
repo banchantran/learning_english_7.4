@@ -1,7 +1,19 @@
 <div class="form-learning">
 
     <div class="row">
-        <div class="col-12 text-end">
+        <div class="col-6">
+            <form action="{{url(route('user.updateAutoPlayFlag'))}}" method="post" id="formUpdateAutoPlayFlag">
+                @csrf
+                <div class="form-check">
+                    <input class="form-check-input" name="auto_play_flag" type="checkbox" value="1" {{Auth::user()->auto_play_flag ? 'checked' : ''}} id="showMyData"
+                           onchange="System.showLoading();$('#formUpdateAutoPlayFlag').submit()">
+                    <label class="form-check-label" for="showMyData">
+                        Auto play audio
+                    </label>
+                </div>
+            </form>
+        </div>
+        <div class="col-6 text-end">
             @if (isset($totalLessons))
                 <span class="text-small">{{$totalLessons}} {{Str::plural('lesson', $totalLessons)}}</span>
             @endif
@@ -27,17 +39,19 @@
                                     <p class="plain-text">{!! !empty($item['text_note']) ? $item['text_note'] : '&nbsp;' !!}</p>
                                 </div>
                             @endif
-                            <div class="{{(isset($category) && $category->language_type == config('constant.LANGUAGE_TYPE_JAPANESE')) || (isset($languageType) && $languageType == config('constant.LANGUAGE_TYPE_JAPANESE')) ? 'col-5' : 'col-6'}}">
+                            <div
+                                class="{{(isset($category) && $category->language_type == config('constant.LANGUAGE_TYPE_JAPANESE')) || (isset($languageType) && $languageType == config('constant.LANGUAGE_TYPE_JAPANESE')) ? 'col-5' : 'col-6'}}">
                                 @if ($item['field_to_learn'] == 'display_source')
-                                    <input class="input-learning" type="text" placeholder="" name="source[]" value="">
+                                    <input class="input-learning" type="text" placeholder="" name="source[]" value="" onclick="System.autoPlayAudio(this)">
                                     <p class="text-suggest">{{$item['text_source']}}</p>
                                 @else
                                     <p class="plain-text">{{$item['text_source']}}</p>
                                 @endif
                             </div>
-                            <div class="{{(isset($category) && $category->language_type == config('constant.LANGUAGE_TYPE_JAPANESE')) || (isset($languageType) && $languageType == config('constant.LANGUAGE_TYPE_JAPANESE')) ? 'col-5' : 'col-6'}}">
+                            <div
+                                class="{{(isset($category) && $category->language_type == config('constant.LANGUAGE_TYPE_JAPANESE')) || (isset($languageType) && $languageType == config('constant.LANGUAGE_TYPE_JAPANESE')) ? 'col-5' : 'col-6'}}">
                                 @if ($item['field_to_learn'] == 'display_destination')
-                                    <input class="input-learning" type="text" placeholder="" name="destination[]" value="">
+                                    <input class="input-learning" type="text" placeholder="" name="destination[]" value="" onclick="System.autoPlayAudio(this)">
                                     <p class="text-suggest">{{$item['text_destination']}}</p>
                                 @else
                                     <p class="plain-text">{{$item['text_destination']}}</p>

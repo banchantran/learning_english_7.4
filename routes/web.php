@@ -34,6 +34,7 @@ Route::middleware('auth')->group(function() {
 
     Route::prefix('user')->name('user.')->group(function() {
         Route::post('/update-display-flag', [\App\Http\Controllers\UserController::class, 'updateDisplayFlag'])->name('updateDisplayFlag');
+        Route::post('/update-auto-play-flag', [\App\Http\Controllers\UserController::class, 'updateAutoPlayFlag'])->name('updateAutoPlayFlag');
     });
 
     Route::prefix('dashboard')->name('dashboard.')->group(function() {
